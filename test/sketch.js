@@ -60,10 +60,10 @@ class Img
     
     this.img=imgs[IN];//读取图像
     index++;
-    this.x=this.img.width;           //图像宽
-    this.y=this.img.height;          //图像高
-    this.cx=(width-this.x)/2;        //图像屏幕边缘差
-    this.cy=(height-this.y)/2;
+    this.x=this.img.width/width;           //图像宽
+    this.y=this.img.height/height;          //图像高
+   // this.cx=(width-this.x)/2;        //图像屏幕边缘差
+   // this.cy=(height-this.y)/2;
 
     for(let i=0;i<this.y;i++)
     { this.image1[i]=new Array();
@@ -119,7 +119,7 @@ class Img
         { 
 
           let temp=color(this.image1[i][j][0],this.image1[i][j][1],this.image1[i][j][2],this.image1[i][j][6]);
-          set( int(this.image1[i][j][4])+this.cx,(this.image1[i][j][5])+this.cy,temp);
+          set( (this.image1[i][j][4]),(this.image1[i][j][5]),temp);
      
          // image1[i][j][6]-=0.2;
           
