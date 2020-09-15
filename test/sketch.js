@@ -13,7 +13,7 @@ function preload()
 function setup()
 {
   img1=new Img();
-  createCanvas (800,800);
+  createCanvas (300,300);
 
   img1.setupImg(index);
 }
