@@ -59,8 +59,8 @@ class Img
     
     this.img=imgs[IN];//读取图像
     index++;
-    this.x=width;           //图像宽
-    this.y=height;          //图像高
+    this.x=300;           //图像宽
+    this.y=300;          //图像高
     this.cx=(width-this.x)/2;        //图像屏幕边缘差
     this.cy=(height-this.y)/2;
 
