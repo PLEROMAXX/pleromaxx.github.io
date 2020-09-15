@@ -13,7 +13,7 @@ function preload()
 function setup()
 {
   img1=new Img();
-  createCanvas (300,300);
+  createCanvas (600,600);
 
   img1.setupImg(index);
 }
@@ -23,7 +23,6 @@ function draw()
    {
     index=1;
     img1.setupImg(index);
-    
    }
    if(frameCount%1200==0)
    {
@@ -60,10 +59,10 @@ class Img
     
     this.img=imgs[IN];//读取图像
     index++;
-    this.x=this.img.width/width;           //图像宽
-    this.y=this.img.height/height;          //图像高
-   // this.cx=(width-this.x)/2;        //图像屏幕边缘差
-   // this.cy=(height-this.y)/2;
+    this.x=width;           //图像宽
+    this.y=height;          //图像高
+    this.cx=(width-this.x)/2;        //图像屏幕边缘差
+    this.cy=(height-this.y)/2;
 
     for(let i=0;i<this.y;i++)
     { this.image1[i]=new Array();
