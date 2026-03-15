@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>洞穴剧场 — 项目简报</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0905;
+    --surface: #131109;
+    --surface-2: #1a170e;
+    --surface-3: #211e14;
+    --accent: #c8893a;
+    --accent-light: #dfa84e;
+    --accent-dim: #8a5e24;
+    --text: #f0e8d8;
+    --text-secondary: #c0b4a0;
+    --text-dim: #7a7060;
+    --border: #2a2518;
+    --border-accent: #3d3220;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10, 9, 5, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0 0.9rem;
+    line-height: 52px;
+    display: block;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--accent-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(180, 110, 30, 0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 30% 40%, rgba(100, 60, 10, 0.05) 0%, transparent 60%);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-meta {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--accent-dim), transparent);
+    margin: 3rem auto 0;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 400;
+    color: var(--text);
+    margin: 3.5rem 0 1.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  h3:first-of-type { margin-top: 0; }
+
+  h4 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 2rem 0 0.8rem;
+  }
+
+  /* ── TEXT ── */
+  p {
+    color: var(--text);
+    margin-bottom: 1.4rem;
+    font-size: 0.97rem;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  em {
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .mystery-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1.7;
+    border-left: 2px solid var(--accent-dim);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  /* ── IMAGES ── */
+  .scene-image {
+    width: 100%;
+    margin: 2rem 0;
+    border: 1px solid var(--border-accent);
+    display: block;
+    position: relative;
+  }
+
+  .scene-image img {
+    width: 100%;
+    display: block;
+    filter: brightness(0.92) contrast(1.05);
+  }
+
+  .scene-image figcaption {
+    padding: 0.7rem 1rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .video-wrap {
+    width: 100%;
+    margin: 2rem 0;
+    border: 1px solid var(--border-accent);
+    background: #000;
+  }
+
+  .video-wrap video {
+    width: 100%;
+    display: block;
+    max-height: 480px;
+    object-fit: cover;
+  }
+
+  .video-caption {
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── SCENE CARD ── */
+  .scene-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin: 3rem 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .scene-card-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .scene-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--accent-dim);
+    line-height: 1;
+  }
+
+  .scene-title-wrap {}
+  .scene-title-wrap h3 { margin: 0 0 0.2rem; font-size: 1.3rem; }
+  .scene-size {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .scene-card-body { padding: 2rem; }
+
+  /* ── TRIGGERS ── */
+  .trigger-list {
+    margin: 1.5rem 0;
+    list-style: none;
+  }
+
+  .trigger-item {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trigger-item:last-child { border-bottom: none; }
+
+  .trigger-icon {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .trigger-title {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .trigger-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── SEASONS ── */
+  .seasons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .season-cell {
+    background: var(--surface-2);
+    padding: 1.2rem 1.5rem;
+  }
+
+  .season-name {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .season-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th {
+    text-align: left;
+    padding: 0.9rem 1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent-dim);
+    font-weight: 500;
+    background: var(--surface-2);
+  }
+
+  td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  td:first-child { color: var(--text); }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-2); }
+
+  .table-highlight td {
+    color: var(--text);
+    font-weight: 500;
+    background: var(--surface-3);
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1.1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* ── REVENUE SOURCES ── */
+  .revenue-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .revenue-item {
+    background: var(--surface);
+    padding: 1.2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 5rem 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .revenue-tag {
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .revenue-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .revenue-amount {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ── COOP MODES ── */
+  .coop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .coop-card {
+    background: var(--surface);
+    padding: 1.5rem;
+  }
+
+  .coop-mode {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .coop-role {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── THEME TABLE ── */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .theme-cell {
+    background: var(--surface);
+    padding: 1.2rem;
+  }
+
+  .theme-name {
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .theme-target {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── RISK ITEMS ── */
+  .risk-list { margin: 1.5rem 0; }
+
+  .risk-item {
+    border-left: 2px solid var(--border-accent);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--surface);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .risk-item:hover { border-left-color: var(--accent-dim); }
+
+  .risk-title {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  .risk-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ── APPENDIX ── */
+  .appendix-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .code-block {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    color: #a0c080;
+    line-height: 1.9;
+    overflow-x: auto;
+    margin: 1rem 0;
+    white-space: pre;
+  }
+
+  .spec-list {
+    list-style: none;
+    margin: 1rem 0;
+  }
+
+  .spec-list li {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .spec-list li:last-child { border-bottom: none; }
+
+  .spec-list li span { color: var(--text-dim); font-size: 0.82rem; }
+
+  /* ── NOTE ── */
+  .note {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    border-left: 1px solid var(--border-accent);
+    padding: 0.8rem 1rem;
+    margin: 1.5rem 0;
+    line-height: 1.7;
+  }
+
+  /* ── TEAM ── */
+  .team-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .team-item {
+    background: var(--surface);
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .team-role {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-top: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .team-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .team-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── INVESTMENT ── */
+  .invest-phase {
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .invest-phase-header {
+    background: var(--surface-2);
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .invest-phase-title {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+
+  .invest-phase-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--accent-light);
+  }
+
+  .invest-phase-body { padding: 1.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--accent-dim);
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-meta {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-accent), transparent);
+    margin: 3rem 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-brand { font-size: 0.85rem; }
+    .container { padding: 0 1.2rem; }
+    section { padding: 4rem 0; }
+    .scene-card-body { padding: 1.2rem; }
+    .revenue-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .revenue-amount { text-align: left; }
+    .seasons-grid { grid-template-columns: 1fr; }
+    .invest-phase-header { flex-direction: column; gap: 0.3rem; }
+    .team-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  /* ── TORCH CURSOR ── */
+  * { cursor: none !important; }
+
+  #torchOverlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 0.5s;
+    mix-blend-mode: screen;
+  }
+
+  #fireCursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 201;
+    transform: translate(-50%, -70%);
+    width: 0;
+    height: 0;
+  }
+
+  .fire-outer {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,160,30,0.18) 0%, transparent 70%);
+    animation: fireOuter 0.25s ease-in-out infinite alternate;
+  }
+
+  .fire-mid {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,200,80,0.35) 0%, transparent 70%);
+    animation: fireMid 0.18s ease-in-out infinite alternate;
+  }
+
+  .fire-core {
+    position: absolute;
+    width: 7px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse at 50% 70%, #fff8e0 0%, #ffcc44 40%, #ff8800 80%, transparent 100%);
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    box-shadow:
+      0 0 6px 3px rgba(255, 200, 60, 0.7),
+      0 0 14px 6px rgba(255, 130, 10, 0.45),
+      0 0 28px 12px rgba(200, 80, 0, 0.2);
+    animation: fireCore 0.12s ease-in-out infinite alternate;
+  }
+
+  @keyframes fireCore {
+    from { transform: translate(-50%, -50%) scaleX(1)   scaleY(1); }
+    to   { transform: translate(-50%, -50%) scaleX(0.88) scaleY(1.08); }
+  }
+  @keyframes fireMid {
+    from { transform: translate(-50%, -50%) scale(1);    opacity: 0.9; }
+    to   { transform: translate(-50%, -50%) scale(1.15); opacity: 0.6; }
+  }
+  @keyframes fireOuter {
+    from { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+    to   { transform: translate(-50%, -50%) scale(1.2);  opacity: 0.4; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">洞穴剧场</div>
+  <ul class="nav-links">
+    <li><a href="#overview">概况</a></li>
+    <li><a href="#subject">题材</a></li>
+    <li><a href="#experience">体验</a></li>
+    <li><a href="#revenue">收入</a></li>
+    <li><a href="#realestate">地产</a></li>
+    <li><a href="#replicability">可复制</a></li>
+    <li><a href="#academic">学术</a></li>
+    <li><a href="#timing">时机</a></li>
+    <li><a href="#team">团队</a></li>
+    <li><a href="#investment">投资</a></li>
+    <li><a href="#appendix">附录</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">项目简报 · 2026年3月</p>
+  <h1 class="hero-title">洞穴剧场</h1>
+  <p class="hero-subtitle">Cave Theatre — An Immersive Experience</p>
+  <p class="hero-meta">150–200 ㎡ &nbsp;·&nbsp; 25–35 分钟 &nbsp;·&nbsp; 15–20 人/场</p>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <p class="section-label">项目概况</p>
+    <h2>一套系统，无限叙事</h2>
+
+    <p class="lead">洞穴剧场是一个以法国史前洞穴壁画为主题的沉浸式体验装置，面向商业空间、博物馆和文旅场馆。</p>
+
+    <p>整个体验占地约 150–200 平方米，由三个空间依次构成，完整体验时长 25–35 分钟，每场最多同时容纳 15–20 人。观众进场时取一盏手持"油灯"道具，油灯贯穿全程。</p>
+
+    <p>项目的核心是一套定制的空间感知与投影系统：系统实时追踪每个油灯在空间中的位置，驱动投影光照和内容响应。硬件和软件架构一次建成，内容可以按项目替换，支持跨场馆复用。</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-value">150–200</span>
+        <span class="stat-label">平方米</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">25–35</span>
+        <span class="stat-label">分钟体验</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">15–20</span>
+        <span class="stat-label">人/场</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">3</span>
+        <span class="stat-label">连续场景</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECT -->
+<section id="subject">
+  <div class="container">
+    <p class="section-label">为什么是洞穴壁画</p>
+    <h2>三万年的谜</h2>
+
+    <p>肖维洞穴（Chauvet）的壁画距今约 36,000 年，拉斯科（Lascaux）约 17,000 年——两者之间相隔近 20,000 年，大约是我们与三星堆之间时间距离的五倍。但在这漫长的时间跨度里，史前人类持续在洞穴深处作画，直到大约一万年前，这个行为忽然停止了。没有人知道为什么。也没有人知道这些画的意义是什么。它们是仪式，是记录，是某种我们已经完全遗忘的语言？这些故事延续了三万年，然后成为了永恒的谜团。</p>
+
+    <div class="mystery-quote">
+      它们在岩壁上等了三万年。至今没有答案，也没有人能停止猜测。
+    </div>
+
+    <div class="section-divider"></div>
+
+    <p>法国西南部的史前洞穴是目前已知最重要的史前艺术遗址群，联合国教科文组织将其中多处列为世界遗产。然而，这些洞穴已陆续因保护原因对公众关闭——拉斯科洞穴自 1963 年起禁止进入，肖维洞穴自 1994 年发现起即封闭至今。目前世界各地观众能看到的，几乎都是专业机构制作的复制品。</p>
+
+    <p>法国政府为拉斯科复制展馆（Lascaux IV）投入超过 5,700 万欧元——复制品本身已经是这些遗产面向公众的正式形式。而今天的技术手段，让复制品可以做得远不止于此：它可以是互动的，可以响应观众的行为，可以在任何城市落地。地理和空间的限制不再是障碍，这些遗产的体验方式第一次有了真正的可能性。</p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">体验内容</p>
+    <h2>三个连续的空间</h2>
+
+    <!-- SCENE 1 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">01</div>
+        <div class="scene-title-wrap">
+          <h3>复制品长廊</h3>
+          <div class="scene-size">约 12 × 5 米</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="assets/1.png" alt="场景一：复制品长廊">
+          <figcaption>场景一 — 效果图参考</figcaption>
+        </figure>
+
+        <p>长廊一侧安装 3–4 段洞穴壁面复制品，对应真实遗址：拉斯科公牛大厅、肖维洞穴、鲁菲尼亚克猛犸象群。复制品采用玻璃纤维加矿物涂层制作，还原真实岩石的表面起伏。</p>
+
+        <p>进入时，展厅处于近乎全暗的状态。观众从取灯台拿起油灯，灯在手中亮起。</p>
+
+        <p>油灯照到哪里，哪里才亮起来。其余区域保持黑暗。这和史前画家进洞时的处境完全一样——手里只有一盏灯，能看见的范围就是那一圈光。</p>
+
+        <div class="section-divider"></div>
+
+        <h4>感官环境</h4>
+        <p>入口处的气味是石灰岩和矿物的气息，带着洞穴特有的冷意。这由入口区的气味扩散装置控制，与室外空气完全隔离。声音系统在整个长廊维持一层低沉的环境底声——岩壁的混响、远处极微弱的滴水声、偶尔的气流——不构成具体的声音事件，只是让空间的质感对了。脚步声在这里听起来和普通展厅不同，观众会本能地放轻动作。这三层感官——气味、黑暗、声音——共同建立起真实的感觉空间。</p>
+
+        <div class="section-divider"></div>
+
+        <h4>实时光照系统</h4>
+        <p>油灯位置由 UWB 传感器实时追踪，投影系统根据坐标在复制品表面生成对应的光照。由于复制品有真实的物理起伏，光从不同角度打来会产生不同的浮雕阴影，岩石感是真实的，不是平面模拟出来的。</p>
+
+        <p>真实洞穴中有一类体验很难在静态展示中还原：许多壁画里混有刻画的痕迹，这些线条在正面光下几乎看不见，只有当光从侧面低角度扫过时才会浮现出来。这是史前画家有意为之的——图像随光的角度变化而显现，不是一成不变的画面。我们在复制品表面叠加了一层实时投影光照，油灯角度的改变直接影响壁面上光影的方向。观众移动手中的灯，会看到岩面上的某些细节从黑暗中逐渐显出来。这个体验只有在真实洞穴里持灯行走才能得到，我们把它带进了展厅。</p>
+
+        <div class="section-divider"></div>
+
+        <h4>三类触发事件</h4>
+        <ul class="trigger-list">
+          <li class="trigger-item">
+            <div class="trigger-icon">①</div>
+            <div>
+              <div class="trigger-title">低语解说</div>
+              <p class="trigger-desc">油灯在某段壁画前停留 8 秒以上，会触发来自壁画方向的空间音频——不是广播，是贴耳的低语，讲述这段壁画的一个具体细节。声音从壁画位置传来，像是画本身在说话。</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">②</div>
+            <div>
+              <div class="trigger-title">动物激活</div>
+              <p class="trigger-desc">油灯非常靠近某只动物时，动物轮廓短暂发光，线条像是被重新描出来——停留几秒，然后消退。拉斯科的马有六条腿，原牛有八条腿，这是画家用多条腿来表达运动的方式。当轮廓亮起，这个意图才变得清晰。</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">③</div>
+            <div>
+              <div class="trigger-title">群体触发</div>
+              <p class="trigger-desc">三个以上油灯同时照向同一段壁画，画上的动物产生轻微位移，像是多条腿短暂同时迈动。这个效果只有多人同时参与才能看到，单独一人不会触发。</p>
+            </div>
+          </li>
+        </ul>
+
+        <p>场景一末端，当有观众走到出口区域并停留片刻，地面脚印投影出现——一组人的脚印和动物爪印，从长廊末端延伸向场景二入口，引导观众跟随。</p>
+      </div>
+    </div>
+
+    <!-- SCENE 2 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">02</div>
+        <div class="scene-title-wrap">
+          <h3>圆形剧场</h3>
+          <div class="scene-size">直径约 8–10 米，顶高 4 米</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="assets/3.png" alt="场景二：圆形剧场">
+          <figcaption>场景二 — 效果图参考</figcaption>
+        </figure>
+
+        <p>圆形空间的墙面是一整圈连续的投影面。四个方向分别对应四个季节，同时运行：</p>
+
+        <div class="seasons-grid">
+          <div class="season-cell">
+            <div class="season-name">春</div>
+            <p class="season-desc">母马带着小马驹从画面深处走来，鹿群向右迁移</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">夏</div>
+            <p class="season-desc">野牛群密集聚集，雄牛体型巨大，底部有三文鱼洄游的鱼群</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">秋</div>
+            <p class="season-desc">两头雄鹿面对面，鹿角完全展开，正在对峙</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">冬</div>
+            <p class="season-desc">动物稀疏，大量手印叠在岩石上，几何符号散布其间</p>
+          </div>
+        </div>
+
+        <p>四个季节同时存在于这个圆形空间里，观众走向哪个方向，就进入哪个季节的画面。</p>
+
+        <p>墙上的动物像是悬浮在岩面上，油灯靠近时，它们会投下随光源移动的阴影——这个阴影是实时计算的，跟着观众手中的灯走。每种动物对光的反应不同：小马驹会好奇地停下，转头看向光源；野牛群里最近的一头先警觉，这个状态会向后传导；雄鹿会在持灯静立的观众面前缓缓走近。冬季区另有一处互动——手印在油灯靠近时微微发光；观众可以贴近岩面，摄像头捕捉手形，将自己的手印叠在古老的手印旁，约 60 秒后缓慢消退。</p>
+
+        <div class="video-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="assets/grotte_1.mp4" type="video/mp4">
+          </video>
+          <div class="video-caption">实时投影效果测试</div>
+        </div>
+
+        <p>圆形空间中央有一组半透明投影，展示几个史前人类的形象。他们围着一小堆火坐着，低头看火、用手指在地上划画、站着听远处的声音。他们不看观众，不响应任何操作，只是在自己的时间里存在。观众绕着他们走，用油灯照亮他们。</p>
+
+        <p>当场景二内有三个以上油灯同时照亮不同方向的壁画，中央的一个人会站起来，开始描述一件事——手势夸张，其他人聚过来倾听。墙上随之出现奔跑的动物轮廓，像是他正在用手势重演一场狩猎。大约 60 秒后，他坐下，一切回到安静。</p>
+      </div>
+    </div>
+
+    <!-- SCENE 3 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">03</div>
+        <div class="scene-title-wrap">
+          <h3>出口：VR 瞭望台</h3>
+          <div class="scene-size">约 4 × 4 米</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="assets/4.png" alt="场景三：VR瞭望台">
+          <figcaption>场景三 — 效果图参考</figcaption>
+        </figure>
+
+        <p>出口区有 1–2 台悬挂的 VR 观测镜，外形包裹成暗色金属的仪器形态。观众不需要戴上头显，只是把眼睛凑上去，像用望远镜一样观看，一次一人，每人约 30–40 秒。</p>
+
+        <p>镜中是一段 360° 双目立体视频：视角站在洞穴出口，面前是开阔的史前地貌——宽阔的河谷，琥珀色的草原，中景有一群野马缓慢移动，远处有猛犸象群带着幼崽穿越草原。回头看，洞穴内还有微弱的火光。</p>
+
+        <p>没有叙事，没有解说。只是那片世界在那里，安静地存在。</p>
+
+        <p>这里的气味换了——不再是石灰岩，而是湿草和冷空气。出口处设有归还台。观众将油灯放回，灯熄灭。</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVENUE -->
+<section id="revenue">
+  <div class="container">
+    <p class="section-label">收入模型</p>
+    <h2>票务为主，多流并行</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>指标</th>
+            <th>数值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>票价</td><td>¥120–180 / 人</td></tr>
+          <tr><td>场次容量</td><td>15 人</td></tr>
+          <tr><td>日场次</td><td>5 场</td></tr>
+          <tr><td>年运营天数</td><td>280 天</td></tr>
+          <tr class="table-highlight"><td>年票房收入</td><td>¥252 万–378 万</td></tr>
+          <tr><td>年运营成本</td><td>待定，依合作结构协商</td></tr>
+          <tr class="table-highlight"><td>年净收益</td><td>依运营成本结构确定后测算</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>营收持续性</h3>
+
+    <p>票务收入能持续的前提是观众持续到来。有几个机制支撑这一点：</p>
+
+    <p><strong>内容更新周期。</strong>系统架构支持内容模块更换。壁画遗址段可以按季度更换，圆形剧场的季节内容可以做节日特别版本。同一个城市的观众，每隔半年有理由再来一次。</p>
+
+    <div class="revenue-grid">
+      <div class="revenue-item">
+        <div class="revenue-tag">票务</div>
+        <p class="revenue-desc">散客 + 团体预约</p>
+        <div class="revenue-amount">主体</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">场地租借</div>
+        <p class="revenue-desc">企业团建、品牌活动、学校研学</p>
+        <div class="revenue-amount">¥2万–5万/次</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">内容授权</div>
+        <p class="revenue-desc">向其他场馆输出系统使用权</p>
+        <div class="revenue-amount">¥30万–80万/次</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">政府补贴</div>
+        <p class="revenue-desc">文化产业扶持、夜经济、研学项目</p>
+        <div class="revenue-amount">视地方政策</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">品牌合作</div>
+        <p class="revenue-desc">与遗址相关的文化品牌联合推广</p>
+        <div class="revenue-amount">项目制</div>
+      </div>
+    </div>
+
+    <p>场地租借在淡季尤其有价值——企业团建和学校研学对时间不敏感，可以有效填补非节假日的空档。</p>
+  </div>
+</section>
+
+<!-- REAL ESTATE -->
+<section id="realestate">
+  <div class="container">
+    <p class="section-label">与商业地产的结合</p>
+    <h2>激活沉默的空间</h2>
+
+    <h3>空置空间的利用</h3>
+    <p>商业地产中有一类空间持续难以出租：地下层、长廊端头、大体量购物中心的角落位置。这些空间的共同特点——封闭、昏暗、远离主动线——正是沉浸式体验所需要的条件。</p>
+    <p>洞穴剧场只需要约 150–200 平方米，可以在不影响原有商业格局的情况下嵌入这类位置。一套硬件的安装成本约 ¥10 万–15 万，从票务回收周期看，约 2–3 个月可覆盖硬件投入，此后产生持续净收入。</p>
+    <p>从业主角度，这是把一个无收益或低收益的面积，转变为日均稳定产出的区域，同时为整个物业带来客流。</p>
+
+    <h3>项目开业节点的流量价值</h3>
+    <p>新商业项目开业、楼盘销售中心启动、文旅项目招商期——这些节点都需要在短时间内制造到访量和话题。洞穴剧场的视觉场景（黑暗空间、火把光照、动物壁画）具备较高的社交媒体传播属性，适合作为限时体验制造首期热度。装置可在 2–3 周内完成部署，项目结束后拆卸移至下一个场地。</p>
+
+    <h3>文化配套对资产价值的影响</h3>
+    <p>带有稳定文化配套的商业综合体，租金和销售溢价在多个市场的案例中约为 <strong>15–25%</strong>。这个效应对高端住宅和定位中高端的商业项目尤为明显。一个持续运营的沉浸式文化空间，可以作为整个项目文化定位的锚点。</p>
+
+    <h3>合作方式</h3>
+    <div class="coop-grid">
+      <div class="coop-card">
+        <div class="coop-mode">场地合作</div>
+        <p class="coop-role">投资人提供空置场地，我方安装运营，票房按比例分成</p>
+      </div>
+      <div class="coop-card">
+        <div class="coop-mode">资本入股</div>
+        <p class="coop-role">投资人出资硬件与内容，我方负责技术与运营，利润分成</p>
+      </div>
+      <div class="coop-card">
+        <div class="coop-mode">服务采购</div>
+        <p class="coop-role">投资人购买整套装置交付，我方交付并提供维护，项目款 + 年维护费</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPLICABILITY -->
+<section id="replicability">
+  <div class="container">
+    <p class="section-label">可复制性</p>
+    <h2>一套基础，无限主题</h2>
+
+    <p>系统分为两个层级：<strong>基础设施</strong>（硬件、定位、渲染框架）和<strong>内容</strong>（壁画、动物、场景设计）。</p>
+    <p>基础设施在项目间 100% 复用，只有内容每次重新制作。内容成本约占单次部署总成本的 25–35%。</p>
+    <p>从第二个项目开始，硬件不需要重复采购，团队的施工和校准经验也会显著缩短部署周期。随着项目积累，边际成本持续下降，同样的收入规模对应的利润率会逐步提升。</p>
+    <p>核心道具系统（油灯 + UWB 定位 + 投影联动）不依赖洞穴题材，可以移植到其他叙事场景中。举例：皮影戏体验中，观众手持光源，决定哪个皮影被照亮、从哪个角度投影；或者用于夜间园林导览，手中的灯决定植物、建筑、水面的响应方式。机制不变，内容和形式随场景重新设计。</p>
+
+    <h4>延伸方向</h4>
+    <div class="theme-grid">
+      <div class="theme-cell">
+        <div class="theme-name">敦煌壁画</div>
+        <div class="theme-target">中国文博机构、西北文旅区</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">皮影戏</div>
+        <div class="theme-target">文旅街区、传统文化体验馆</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">海洋自然</div>
+        <div class="theme-target">自然博物馆、沿海商业体</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">城市历史</div>
+        <div class="theme-target">城市文化中心、历史街区</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">品牌定制</div>
+        <div class="theme-target">高端住宅销售中心、品牌旗舰空间</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACADEMIC -->
+<section id="academic">
+  <div class="container">
+    <p class="section-label">学术合作与中法文化交流</p>
+    <h2>连接两个世界</h2>
+
+    <p>拉斯科、肖维、鲁菲尼亚克等遗址是法国文化部管理的国家遗产，同时也是学术界持续研究的对象。波尔多大学、法国国家科学研究中心（CNRS）等机构在史前艺术领域有长期积累。</p>
+
+    <p>我们计划联系法国大学系统，邀请相关学者以顾问或合作方身份参与项目。学术合作的实际价值在于：内容的准确性有专业机构背书，在向法国文化机构申请资质或授权时，学术关系是可信的入场凭证；同时，法国高校和研究机构的网络有助于项目在欧洲文化圈的传播。</p>
+
+    <p>在内容层面，这个项目有一个自然的中法文化交汇点：以法国的史前遗产为核心，由中国团队以数字技术重新呈现，在中国城市运营。这个结构本身可以作为中法文化交流的具体案例，有利于在两国的文化机构和官方渠道中建立对话。</p>
+
+    <p>长期方向上，在中国市场完成原型验证后，我们希望将这套系统和内容带到法国本地场馆落地，形成双向流通：中国观众看法国史前世界，法国观众看中国团队对这段历史的当代解读。</p>
+
+    <div class="mystery-quote">
+      这个合作框架不局限于洞穴壁画项目。invitro 在进行的其他项目，只要涉及中法两国的文化内容或在两国运营，都可以纳入同一个学术合作与文化交流的结构中，形成持续的合作关系，而不是单次的项目对接。
+    </div>
+  </div>
+</section>
+
+<!-- TIMING -->
+<section id="timing">
+  <div class="container">
+    <p class="section-label">时机判断</p>
+    <h2>进入窗口正在打开</h2>
+
+    <p>AI 正在降低数字内容的生产成本。动画、音效、场景设计——这些过去需要大量人力的工作，现在可以借助 AI 工具在更短时间内完成，制作成本比三年前低了一半以上。</p>
+    <p>对我们来说，这是有利的：内容制作门槛降低，意味着每次部署的成本在下降，商业模型更容易成立。</p>
+    <p>同时，AI 的普及正在让屏幕上的内容越来越丰富、越来越廉价。观众在家可以获得大量高质量的视觉内容，反而让"必须到现场"的体验变得更稀少、更有价值。洞穴剧场的体验依赖真实的物理空间、真实的物理道具和真实的身体在场——这些不是数字内容可以替代的。</p>
+    <p>现在是进入这个方向比较合适的时间节点：AI 工具成熟到可以帮助我们降低制作成本，但这类物理体验还没有大量竞争者。</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <p class="section-label">团队</p>
+    <h2>创作与学术</h2>
+
+    <div class="team-grid">
+      <div class="team-item">
+        <div class="team-role">内容制作</div>
+        <div>
+          <div class="team-name">In Vitro</div>
+          <p class="team-desc">负责数字内容、互动系统和整体体验设计，有多个沉浸式装置的落地经验。</p>
+        </div>
+      </div>
+      <div class="team-item">
+        <div class="team-role">学术联络</div>
+        <div>
+          <div class="team-name">李兵</div>
+          <p class="team-desc">里尔大学（Université de Lille）认知与心理方向博士后，负责与法国高校和研究机构的对接。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTMENT -->
+<section id="investment">
+  <div class="container">
+    <p class="section-label">投资需求</p>
+    <h2>两个阶段</h2>
+
+    <div class="invest-phase">
+      <div class="invest-phase-header">
+        <div class="invest-phase-title">第一阶段：原型验证（3 个月）</div>
+        <div class="invest-phase-amount">¥ 30 万</div>
+      </div>
+      <div class="invest-phase-body">
+        <p>目标是完成一个可向合作机构展示的运行原型，验证核心技术和体验逻辑。</p>
+        <div class="note">以下金额暂拟，供参考量级使用。</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>用途</th><th>金额</th></tr></thead>
+            <tbody>
+              <tr><td>硬件采购（UWB、投影、道具）</td><td>¥8 万</td></tr>
+              <tr><td>内容制作（壁画动画、音效、VR 视频）</td><td>¥12 万</td></tr>
+              <tr><td>场地与安装</td><td>¥5 万</td></tr>
+              <tr><td>备用与调试</td><td>¥5 万</td></tr>
+              <tr class="table-highlight"><td>合计</td><td>¥30 万</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>产出：</strong>可运行的完整体验原型 + 演示视频 + 首批合作机构接触。</p>
+      </div>
+    </div>
+
+    <div class="invest-phase">
+      <div class="invest-phase-header">
+        <div class="invest-phase-title">第二阶段：首个正式落地项目</div>
+        <div class="invest-phase-amount">¥ 40–80 万</div>
+      </div>
+      <div class="invest-phase-body">
+        <p>依据原型验证结果和第一个合作场馆确定，预计追加投入 ¥40 万–80 万（含复制品制作和场地装修配合），正式对外售票运营。</p>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>主要风险</h3>
+    <div class="risk-list">
+      <div class="risk-item">
+        <div class="risk-title">复制品制作成本波动</div>
+        <p class="risk-desc">玻璃纤维壁面复制品的造价区间较宽，取决于精度和制作方。原型阶段可先用简化方案控制成本，正式项目前确认供应商和报价。</p>
+      </div>
+      <div class="risk-item">
+        <div class="risk-title">观众量预测不确定性</div>
+        <p class="risk-desc">票务收入估算基于稳定场次利用率。实际运营初期可能有一个爬坡期，前两个月收入低于稳定状态。建议原型验证阶段同步测试定价和预约转化率。</p>
+      </div>
+      <div class="risk-item">
+        <div class="risk-title">场馆合作谈判周期</div>
+        <p class="risk-desc">与博物馆或商业体的合作谈判通常需要 2–4 个月。商业空间合作相对更快，可以作为首个落地项目的优先方向。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPENDIX -->
+<section id="appendix">
+  <div class="container">
+    <p class="section-label">附录</p>
+    <h2>技术方案与预算</h2>
+
+    <h3>附录 A：体验技术方案</h3>
+
+    <h4>核心系统架构</h4>
+    <div class="code-block">[UWB 锚点 × 6–8，天花板安装]
+        ↓ 实时坐标（UDP/OSC）
+[主机：Windows + RTX 4080]
+    Unity — 行为逻辑 + 投影光照渲染
+        ↓ KlakSpout（GPU 显存直传）
+    Resolume Arena — 多路投影融合输出
+        ↓ DisplayPort × 4–6
+    [壁面投影仪]
+
+[副机：Mac Mini]
+    QLab — 空间音频 + 脚印序列 + DMX 灯光
+        ↓ OSC 与主机双向通信
+
+[VR 观测镜]
+    Quest 3 独立运行，Skybox VR 播放 360° 双目视频</div>
+
+    <h4>油灯道具</h4>
+    <p>外形参考旧石器时代脂肪灯造型，树脂 3D 打印外壳，内置：</p>
+    <ul class="spec-list">
+      <li>定位模块 <span>ESP32 + DW1000 UWB，精度 ±15–30cm</span></li>
+      <li>光源 <span>2700K 暖白 LED，轻微不规则闪烁</span></li>
+      <li>电池 <span>5000mAh，续航约 20 小时</span></li>
+      <li>单盏成本 <span>约 ¥650，首批 12–15 盏</span></li>
+    </ul>
+
+    <h4>投影光照原理</h4>
+    <p>复制品表面有真实的物理起伏。系统为每段复制品建立对应的 3D 模型，在 Unity 中以虚拟投影仪摄像机渲染，输出图像打到物理表面上时，几何吻合。油灯位置作为虚拟点光源，实时计算对岩石表面的光照方向，凸起受光、凹陷产生阴影，效果随油灯角度变化。</p>
+
+    <div class="section-divider"></div>
+
+    <h3>附录 B：预算明细</h3>
+    <div class="note">以下数字为规划阶段的暂拟估算，供参考量级使用。实际金额依供应商报价、场地条件和具体配置调整，正式落地前会重新核算。</div>
+
+    <h4>原型阶段（6 米演示段，4 盏油灯）</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>类别</th><th>项目</th><th>小计</th></tr></thead>
+        <tbody>
+          <tr><td>UWB 定位</td><td>锚点 ×4 + 标签 ×4</td><td>¥14,000</td></tr>
+          <tr><td>油灯道具</td><td>外壳 + 充电 + LED + 组装 ×4</td><td>¥5,000</td></tr>
+          <tr><td>投影安装</td><td>安装架 + 线缆</td><td>¥4,000</td></tr>
+          <tr><td>手印识别</td><td>红外摄像头 + 支架</td><td>¥6,000</td></tr>
+          <tr><td>灯光控制</td><td>Enttec DMX 控制器</td><td>¥5,000</td></tr>
+          <tr><td>气味系统</td><td>扩散机 + 气味配方</td><td>¥4,000</td></tr>
+          <tr><td>耗材备件</td><td>—</td><td>¥3,000</td></tr>
+          <tr class="table-highlight"><td>硬件小计</td><td></td><td>¥41,000</td></tr>
+          <tr><td>Resolume Arena</td><td>投影软件</td><td>¥6,500</td></tr>
+          <tr><td>QLab</td><td>原型阶段免费版</td><td>¥0</td></tr>
+          <tr class="table-highlight"><td>原型合计</td><td></td><td>约 ¥48,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>完整版安装（18 米长廊 + 圆形剧场，12 盏油灯）</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>类别</th><th>小计</th></tr></thead>
+        <tbody>
+          <tr><td>UWB 定位系统（锚点 ×8 + 标签 ×12）</td><td>¥28,000</td></tr>
+          <tr><td>油灯道具 ×12</td><td>¥15,000</td></tr>
+          <tr><td>洞穴复制品制作（CNC 泡沫 + 硬涂层，约 20㎡）</td><td>¥12,000–20,000</td></tr>
+          <tr><td>圆形剧场薄纱屏 + 安装</td><td>¥5,000–12,000</td></tr>
+          <tr><td>投影安装架 + 线缆</td><td>¥8,000</td></tr>
+          <tr><td>VR 观测镜（Quest 3 ×2 + 外壳 + 悬挂）</td><td>¥8,000</td></tr>
+          <tr><td>手印识别摄像头</td><td>¥6,000</td></tr>
+          <tr><td>气味系统（入口 + 出口）</td><td>¥8,000</td></tr>
+          <tr><td>DMX 灯光控制</td><td>¥5,000</td></tr>
+          <tr><td>耗材备件</td><td>¥5,000</td></tr>
+          <tr class="table-highlight"><td>硬件合计</td><td>约 ¥100,000–115,000</td></tr>
+          <tr><td>Resolume Arena</td><td>¥6,500</td></tr>
+          <tr><td>QLab Video + Audio</td><td>¥5,500 / 年</td></tr>
+          <tr class="table-highlight"><td>完整版合计（首年）</td><td>约 ¥112,000–127,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">投影仪、渲染主机、音响设备可借用或租用，不计入以上预算。如需自购，另加约 ¥80,000–120,000。</div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">洞穴剧场 · Cave Theatre</div>
+  <p class="footer-meta">In Vitro · 2026年3月 · 内部文件</p>
+</footer>
+
+
+<!-- TORCH OVERLAY -->
+<div id="torchOverlay"></div>
+<div id="fireCursor">
+  <div class="fire-outer"></div>
+  <div class="fire-mid"></div>
+  <div class="fire-core"></div>
+</div>
+
+<script>
+(function() {
+  const overlay  = document.getElementById('torchOverlay');
+  const cursor   = document.getElementById('fireCursor');
+
+  let targetX = window.innerWidth  / 2;
+  let targetY = window.innerHeight / 2;
+  let curX    = targetX;
+  let curY    = targetY;
+  let active  = false;
+
+  // Mouse tracking
+  document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    if (!active) {
+      active = true;
+      overlay.style.opacity = '1';
+    }
+  });
+
+  // Hide effect when mouse leaves
+  document.addEventListener('mouseleave', () => {
+    active = false;
+    overlay.style.opacity = '0';
+  });
+
+  // Text shadow targets: headings + section labels
+  function updateShadows(mx, my) {
+    const els = document.querySelectorAll('h1, h2, h3, .hero-title, .hero-subtitle, .mystery-quote');
+    els.forEach(el => {
+      const r    = el.getBoundingClientRect();
+      const cx   = r.left + r.width  / 2;
+      const cy   = r.top  + r.height / 2;
+      const dx   = cx - mx;
+      const dy   = cy - my;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      // Shadow falls away from the light source
+      const maxDist   = 700;
+      const intensity = Math.max(0, 1 - dist / maxDist);
+      const scale     = 5 * intensity;
+      const sx        = (dx / dist) * scale;
+      const sy        = (dy / dist) * scale;
+      const blur      = 10 * intensity;
+      const alpha     = 0.75 * intensity;
+
+      el.style.textShadow = intensity > 0.02
+        ? `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(1)}px rgba(180, 90, 0, ${alpha.toFixed(2)})`
+        : '';
+    });
+  }
+
+  function tick() {
+    // Smooth lag for cursor
+    curX += (targetX - curX) * 0.10;
+    curY += (targetY - curY) * 0.10;
+
+    // Fire cursor position
+    cursor.style.left = curX + 'px';
+    cursor.style.top  = curY + 'px';
+
+    // Soft warm glow at cursor — screen blend only brightens, never darkens
+    const flicker = 1 + (Math.random() - 0.5) * 0.05;
+    const r = Math.round(480 * flicker);
+    overlay.style.background =
+      `radial-gradient(ellipse ${r}px ${r}px at ${curX.toFixed(0)}px ${curY.toFixed(0)}px,
+        rgba(255, 155, 40, 0.13) 0%,
+        rgba(255, 120, 20, 0.06) 30%,
+        rgba(220, 90,  10, 0.02) 60%,
+        transparent 100%)`;
+
+    updateShadows(curX, curY);
+    requestAnimationFrame(tick);
+  }
+
+  tick();
+})();
+</script>
+</body>
+</html>
