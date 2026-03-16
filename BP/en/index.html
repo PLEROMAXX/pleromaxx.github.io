@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cave Theatre — Project Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0905;
+    --surface: #131109;
+    --surface-2: #1a170e;
+    --surface-3: #211e14;
+    --accent: #c8893a;
+    --accent-light: #dfa84e;
+    --accent-dim: #8a5e24;
+    --text: #f0e8d8;
+    --text-secondary: #c0b4a0;
+    --text-dim: #7a7060;
+    --border: #2a2518;
+    --border-accent: #3d3220;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10, 9, 5, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0 0.9rem;
+    line-height: 52px;
+    display: block;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--accent-light); }
+
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  .lang-switch a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.15rem 0.35rem;
+    transition: color 0.2s;
+  }
+  .lang-switch a:hover { color: var(--accent-light); }
+  .lang-switch a.active { color: var(--accent); }
+  .lang-switch span { color: var(--border-accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(180, 110, 30, 0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 30% 40%, rgba(100, 60, 10, 0.05) 0%, transparent 60%);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-meta {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--accent-dim), transparent);
+    margin: 3rem auto 0;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 400;
+    color: var(--text);
+    margin: 3.5rem 0 1.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  h3:first-of-type { margin-top: 0; }
+
+  h4 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 2rem 0 0.8rem;
+  }
+
+  /* ── TEXT ── */
+  p {
+    color: var(--text);
+    margin-bottom: 1.4rem;
+    font-size: 0.97rem;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  em {
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .mystery-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1.7;
+    border-left: 2px solid var(--accent-dim);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  /* ── IMAGES ── */
+  .scene-image {
+    width: 100%;
+    margin: 2rem 0;
+    border: 1px solid var(--border-accent);
+    display: block;
+    position: relative;
+  }
+
+  .scene-image img {
+    width: 100%;
+    display: block;
+    filter: brightness(0.92) contrast(1.05);
+  }
+
+  .scene-image figcaption {
+    padding: 0.7rem 1rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .video-wrap {
+    width: 100%;
+    margin: 2rem 0;
+    border: 1px solid var(--border-accent);
+    background: #000;
+  }
+
+  .video-wrap video {
+    width: 100%;
+    display: block;
+    max-height: 480px;
+    object-fit: cover;
+  }
+
+  .video-caption {
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── SCENE CARD ── */
+  .scene-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin: 3rem 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .scene-card-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .scene-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--accent-dim);
+    line-height: 1;
+  }
+
+  .scene-title-wrap {}
+  .scene-title-wrap h3 { margin: 0 0 0.2rem; font-size: 1.3rem; }
+  .scene-size {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .scene-card-body { padding: 2rem; }
+
+  /* ── TRIGGERS ── */
+  .trigger-list {
+    margin: 1.5rem 0;
+    list-style: none;
+  }
+
+  .trigger-item {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trigger-item:last-child { border-bottom: none; }
+
+  .trigger-icon {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .trigger-title {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .trigger-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── SEASONS ── */
+  .seasons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .season-cell {
+    background: var(--surface-2);
+    padding: 1.2rem 1.5rem;
+  }
+
+  .season-name {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .season-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th {
+    text-align: left;
+    padding: 0.9rem 1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent-dim);
+    font-weight: 500;
+    background: var(--surface-2);
+  }
+
+  td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  td:first-child { color: var(--text); }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-2); }
+
+  .table-highlight td {
+    color: var(--text);
+    font-weight: 500;
+    background: var(--surface-3);
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1.1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* ── REVENUE SOURCES ── */
+  .revenue-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .revenue-item {
+    background: var(--surface);
+    padding: 1.2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 7rem 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .revenue-tag {
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .revenue-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .revenue-amount {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ── COOP MODES ── */
+  .coop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .coop-card {
+    background: var(--surface);
+    padding: 1.5rem;
+  }
+
+  .coop-mode {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .coop-role {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── THEME TABLE ── */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .theme-cell {
+    background: var(--surface);
+    padding: 1.2rem;
+  }
+
+  .theme-name {
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .theme-target {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── RISK ITEMS ── */
+  .risk-list { margin: 1.5rem 0; }
+
+  .risk-item {
+    border-left: 2px solid var(--border-accent);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--surface);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .risk-item:hover { border-left-color: var(--accent-dim); }
+
+  .risk-title {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  .risk-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ── APPENDIX ── */
+  .appendix-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .code-block {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    color: #a0c080;
+    line-height: 1.9;
+    overflow-x: auto;
+    margin: 1rem 0;
+    white-space: pre;
+  }
+
+  .spec-list {
+    list-style: none;
+    margin: 1rem 0;
+  }
+
+  .spec-list li {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .spec-list li:last-child { border-bottom: none; }
+
+  .spec-list li span { color: var(--text-dim); font-size: 0.82rem; }
+
+  /* ── NOTE ── */
+  .note {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    border-left: 1px solid var(--border-accent);
+    padding: 0.8rem 1rem;
+    margin: 1.5rem 0;
+    line-height: 1.7;
+  }
+
+  /* ── TEAM ── */
+  .team-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .team-item {
+    background: var(--surface);
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .team-role {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-top: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .team-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .team-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── INVESTMENT ── */
+  .invest-phase {
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .invest-phase-header {
+    background: var(--surface-2);
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .invest-phase-title {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+
+  .invest-phase-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--accent-light);
+  }
+
+  .invest-phase-body { padding: 1.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--accent-dim);
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-meta {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-accent), transparent);
+    margin: 3rem 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-brand { font-size: 0.85rem; }
+    .container { padding: 0 1.2rem; }
+    section { padding: 4rem 0; }
+    .scene-card-body { padding: 1.2rem; }
+    .revenue-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .revenue-amount { text-align: left; }
+    .seasons-grid { grid-template-columns: 1fr; }
+    .invest-phase-header { flex-direction: column; gap: 0.3rem; }
+    .team-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  /* ── TORCH CURSOR ── */
+  * { cursor: none !important; }
+
+  #torchOverlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 0.5s;
+    mix-blend-mode: screen;
+  }
+
+  #fireCursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 201;
+    transform: translate(-50%, -70%);
+    width: 0;
+    height: 0;
+  }
+
+  .fire-outer {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,160,30,0.18) 0%, transparent 70%);
+    animation: fireOuter 0.25s ease-in-out infinite alternate;
+  }
+
+  .fire-mid {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,200,80,0.35) 0%, transparent 70%);
+    animation: fireMid 0.18s ease-in-out infinite alternate;
+  }
+
+  .fire-core {
+    position: absolute;
+    width: 7px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse at 50% 70%, #fff8e0 0%, #ffcc44 40%, #ff8800 80%, transparent 100%);
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    box-shadow:
+      0 0 6px 3px rgba(255, 200, 60, 0.7),
+      0 0 14px 6px rgba(255, 130, 10, 0.45),
+      0 0 28px 12px rgba(200, 80, 0, 0.2);
+    animation: fireCore 0.12s ease-in-out infinite alternate;
+  }
+
+  @keyframes fireCore {
+    from { transform: translate(-50%, -50%) scaleX(1)   scaleY(1); }
+    to   { transform: translate(-50%, -50%) scaleX(0.88) scaleY(1.08); }
+  }
+  @keyframes fireMid {
+    from { transform: translate(-50%, -50%) scale(1);    opacity: 0.9; }
+    to   { transform: translate(-50%, -50%) scale(1.15); opacity: 0.6; }
+  }
+  @keyframes fireOuter {
+    from { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+    to   { transform: translate(-50%, -50%) scale(1.2);  opacity: 0.4; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Cave Theatre</div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#subject">Subject</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#sensory">Sensory</a></li>
+    <li><a href="#revenue">Revenue</a></li>
+    <li><a href="#realestate">Real Estate</a></li>
+    <li><a href="#replicability">Scalability</a></li>
+    <li><a href="#academic">Academic</a></li>
+    <li><a href="#timing">Timing</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#appendix">Appendix</a></li>
+  </ul>
+  <div class="lang-switch">
+    <a href="../cn/">中</a><span>|</span><a href="../en/" class="active">EN</a><span>|</span><a href="../fr/">FR</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Project Brief · March 2026</p>
+  <h1 class="hero-title">Cave Theatre</h1>
+  <p class="hero-subtitle">洞穴剧场 — An Immersive Experience</p>
+  <p class="hero-meta">150–200 ㎡ &nbsp;·&nbsp; ~30 min &nbsp;·&nbsp; 6 per group &nbsp;·&nbsp; Continuous flow</p>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <p class="section-label">Project Overview</p>
+    <h2>One System, Infinite Narratives</h2>
+
+    <p class="lead">Cave Theatre is an immersive installation themed around French prehistoric cave paintings, designed for commercial spaces, museums, and cultural tourism venues.</p>
+
+    <p>The experience spans approximately 150–200 square meters, comprising three sequential spaces with a total duration of about 30 minutes. Operations follow a continuous flow model: groups of 6 enter every 5 minutes, with a maximum of 18 visitors on-site at any time — as one group exits, another enters, with no fixed showtime slots. Upon entry, each visitor picks up a handheld oil lamp prop that accompanies them throughout.</p>
+
+    <p>At its core is a custom spatial sensing and projection system that tracks each oil lamp's position in real time, driving dynamic projection lighting and responsive content. The hardware and software architecture is built once and reused across deployments, with content replaced per project to support multi-venue replication.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-value">150–200</span>
+        <span class="stat-label">sq meters</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">~30</span>
+        <span class="stat-label">min experience</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">6</span>
+        <span class="stat-label">per group</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">3</span>
+        <span class="stat-label">sequential scenes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECT -->
+<section id="subject">
+  <div class="container">
+    <p class="section-label">Why Cave Paintings</p>
+    <h2>A Thirty-Thousand-Year Mystery</h2>
+
+    <p>The paintings at Chauvet Cave date back approximately 36,000 years; those at Lascaux are around 17,000 years old — a gap of nearly 20,000 years, roughly five times the distance between us and China's Sanxingdui civilization. Yet throughout this vast span of time, prehistoric humans continued to paint deep inside caves, until about 10,000 years ago this practice suddenly stopped. No one knows why. No one knows what these images meant. Were they ritual, record-keeping, a language entirely forgotten? These stories endured for thirty thousand years and then became eternal mysteries.</p>
+
+    <div class="mystery-quote">
+      They have waited on the rock walls for thirty thousand years. Still no answers.
+    </div>
+
+    <div class="section-divider"></div>
+
+    <p>The prehistoric caves of southwestern France represent the most significant concentration of prehistoric art sites known today; UNESCO has designated several of them as World Heritage Sites. Yet these caves have been closed to the public one by one for conservation reasons — Lascaux has been off-limits since 1963, and Chauvet has been sealed since its discovery in 1994. What visitors around the world can see today are almost exclusively replicas produced by specialized institutions.</p>
+
+    <p>The French government invested over €57 million in the Lascaux IV replica center — the replica itself has become the official public form of this heritage. Today's technology allows replicas to go far beyond that: they can be interactive, responsive to visitor behavior, and deployable in any city. Geographic and spatial constraints are no longer barriers, and for the first time, the full potential of experiencing this heritage has opened up.</p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">The Experience</p>
+    <h2>Three Sequential Spaces</h2>
+
+    <!-- SCENE 1 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">01</div>
+        <div class="scene-title-wrap">
+          <h3>The Replica Gallery</h3>
+          <div class="scene-size">approx. 12 × 5 m</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="../assets/6.png" alt="Scene 1: The Replica Gallery">
+          <figcaption>Scene 1 — Concept render reference</figcaption>
+        </figure>
+
+        <p>One side of the gallery features 3–4 sections of cave wall replicas corresponding to real sites: the Lascaux Bulls Hall, Chauvet Cave, and the Rouffignac mammoth frieze. The replicas are fabricated from fiberglass with mineral coatings, faithfully reproducing the surface relief of actual rock.</p>
+
+        <p>Upon entering, the hall is near-total darkness. Visitors pick up an oil lamp from the lamp stand — the lamp lights up in their hand. Beside the stand sits a stone bowl, empty, waiting to be lit. Visitors instinctively bring their lamp close; the simulated flame inside the bowl ignites, flickering irregularly in warm tones. At the same moment, the projection gate at the gallery entrance slowly opens. This gesture requires no instruction — it simultaneously delivers a ritualistic beginning and teaches visitors that the lamp can illuminate things in the space.</p>
+
+        <p>Only where the lamp shines does light appear. The rest remains dark — exactly the same condition faced by the prehistoric painters who entered these caves with nothing but one lamp, able to see only within that circle of light.</p>
+
+        <p>Along the gallery walls, 5–6 stone bowls are embedded in the replica surfaces. Any visitor approaching alone causes a bowl to illuminate — the simulated flame LED produces a natural, irregular flicker while lighting up the adjacent section of cave painting: colors deepen, details emerge. The more bowls lit along the corridor, the closer the space comes to resembling the working conditions of the prehistoric painters.</p>
+
+        <figure class="scene-image">
+          <img src="../assets/7.png" alt="Stone bowl illumination effect">
+        </figure>
+
+        <div class="section-divider"></div>
+
+        <h4>Sensory Environment</h4>
+        <p>At the entrance, the scent is limestone and mineral, carrying the characteristic coolness of caves. This is controlled by a scent diffusion unit at the entry, completely isolated from outdoor air. The sound system maintains a deep ambient layer throughout the gallery — the resonance of rock walls, the faint drip of distant water at intervals, the occasional whisper of airflow — not forming distinct sound events, but giving the space the right texture. Footsteps here sound different from a typical exhibition hall; visitors instinctively move more softly. These three sensory layers — scent, darkness, sound — together establish a genuine sensory space.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Real-time Lighting System</h4>
+        <p>The lamp's position is tracked in real time by UWB sensors; the projection system generates corresponding illumination across the replica surface based on the coordinates. Because the replicas have genuine physical relief, light arriving from different angles produces different bas-relief shadows — the rock texture is real, not a flat simulation.</p>
+
+        <p>There is one type of experience from real caves that is very difficult to replicate in static displays: many cave paintings incorporate incised lines that are nearly invisible under direct light, appearing only when light grazes the surface at a low, oblique angle. This was intentional on the part of the prehistoric painters — the image reveals itself according to the angle of light, not as a fixed picture. We overlay a real-time projection layer onto the replica surfaces so that the direction of the lamp directly affects the direction of light and shadow on the wall. As visitors move their lamp, certain details on the rock face gradually emerge from darkness. This experience is normally available only to those walking through real caves holding a torch — we bring it into the exhibition space.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Two Types of Trigger Events</h4>
+        <ul class="trigger-list">
+          <li class="trigger-item">
+            <div class="trigger-icon">①</div>
+            <div>
+              <div class="trigger-title">Whispered Commentary</div>
+              <p class="trigger-desc">When a lamp lingers in front of a section of cave painting for more than 8 seconds, spatial audio is triggered from the direction of the painting — not a broadcast, but a close whisper describing a specific detail of that painting. The language uses invented syllables with rhythmic and tonal variation that resembles real speech in structure, but belongs to no existing language. Listeners cannot understand the literal content but can feel the emotion and intent. After the sound ends, the painting area briefly glows with an ember-like highlight, then fades.</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">②</div>
+            <div>
+              <div class="trigger-title">Animal Activation</div>
+              <p class="trigger-desc">When a lamp comes very close to a painted animal, an outline-tracing animation is triggered: a luminous line begins at the head and travels along the contour for 2–3 seconds, covering the entire body as if being redrawn, then emits one ember pulse before fading within 2 seconds. The Lascaux horse has six legs, the aurochs eight — this was the prehistoric painter's way of expressing movement through multiple limbs. When the six-legged horse is triggered, its six legs are traced in sequence corresponding to the rhythm of its stride; the sense of motion emerges naturally through the tracing process.</p>
+            </div>
+          </li>
+        </ul>
+
+        <figure class="scene-image">
+          <img src="../assets/5.png" alt="Animal activation outline animation effect">
+        </figure>
+
+        <p>At the far end of Scene 1, when a visitor walks to the exit area and pauses, a floor projection of footprints appears — a set of human footprints and animal tracks extending from the gallery end toward the entrance of Scene 2, guiding visitors to follow.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Hidden Content: Geometric Symbols</h4>
+        <p>Real cave paintings contain numerous geometric patterns of unknown meaning — spirals, dot arrays, grid-like symbols — that scholars have been unable to explain. These same symbols are hidden in the replica walls of the exhibition space, but are completely invisible at normal lighting angles. Only when an oil lamp is brought very close at an extremely low, oblique angle do the symbols emerge from the surface. A subtle audio cue signals the discovery; the symbol briefly glows, then fades. A total of 5 symbols are hidden across the three scenes, distributed in different locations.</p>
+      </div>
+    </div>
+
+    <!-- SCENE 2 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">02</div>
+        <div class="scene-title-wrap">
+          <h3>The Amphitheatre</h3>
+          <div class="scene-size">approx. 8–10 m diameter, 4 m ceiling</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="../assets/3.png" alt="Scene 2: The Amphitheatre">
+          <figcaption>Scene 2 — Concept render reference</figcaption>
+        </figure>
+
+        <p>The circular space features an unbroken 360° projection surface. Four directions correspond to four seasons, running simultaneously:</p>
+
+        <div class="seasons-grid">
+          <div class="season-cell">
+            <div class="season-name">Spring</div>
+            <p class="season-desc">A mare and her foal walk out of the depth of the image; a herd of deer migrates to the right</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">Summer</div>
+            <p class="season-desc">Bison gather in dense herds, bulls massive in scale, with a school of salmon swimming below</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">Autumn</div>
+            <p class="season-desc">Two stags face each other, antlers fully spread, locked in confrontation</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">Winter</div>
+            <p class="season-desc">Animals sparse, hand stencils layered on rock, geometric symbols scattered throughout</p>
+          </div>
+        </div>
+
+        <p>All four seasons coexist within this circular space. Visitors move toward whichever direction draws them, entering that season's tableau.</p>
+
+        <p>The animals on the walls appear to float on the rock surface; when a lamp approaches, they cast shadows that move with the light source — calculated in real time, following the visitor's lamp. Each species responds differently to light: the foal stops curiously and turns its head toward the light source; the nearest bison in the herd reacts first with alertness that ripples back through the group; the stag slowly approaches a visitor who holds their lamp steady and still. In the Winter section, hand stencils glow faintly as a lamp approaches; visitors can hold their hand close to the wall and a camera captures the hand shape, layering their own print beside the ancient ones — it fades slowly after about 60 seconds.</p>
+
+        <div class="video-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="../assets/grotte_1.mp4" type="video/mp4">
+          </video>
+          <div class="video-caption">Real-time projection test footage</div>
+        </div>
+
+        <p>At the center of the circular space, a semi-transparent projection shows several prehistoric human figures. They sit around a small fire — looking down at the flames, tracing shapes in the ground with their fingers, standing still listening to distant sounds. They do not look at visitors, do not respond to any action, but simply exist in their own time. Visitors walk around them, illuminating them with their lamps.</p>
+      </div>
+    </div>
+
+    <!-- SCENE 3 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">03</div>
+        <div class="scene-title-wrap">
+          <h3>Exit: VR Lookout</h3>
+          <div class="scene-size">approx. 4 × 4 m</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="../assets/4.png" alt="Scene 3: VR Lookout">
+          <figcaption>Scene 3 — Concept render reference</figcaption>
+        </figure>
+
+        <p>The exit area features 6 suspended VR viewers arranged in a semicircle, forming a small observation platform. Wrapped in dark metal instrument housings, each visitor presses their eyes to a viewer and looks — like using a telescope — for about 40 seconds. All 6 enter and exit together, producing no wait.</p>
+
+        <p>Inside the viewer is a 360° stereoscopic video: the viewpoint stands at the mouth of the cave, looking out over open prehistoric terrain — a broad river valley, amber grassland, a herd of wild horses moving slowly in the middle distance, a mammoth group with young crossing the plain far away. Looking back, faint firelight still flickers inside the cave.</p>
+
+        <p>No narration. No commentary. Just that world, quietly present.</p>
+
+        <p>The scent here has changed — no longer limestone, but wet grass and cold air. A return station is positioned at the exit. Visitors place their lamp back, and it goes dark.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Exit: Digital Collectibles</h4>
+        <p>After returning the lamp, visitors scan a QR code at the exit to enter a WeChat mini-program and claim their digital collectible from the experience. The collectible system operates on three tiers:</p>
+        <ul class="trigger-list">
+          <li class="trigger-item">
+            <div class="trigger-icon">D</div>
+            <div>
+              <div class="trigger-title">Daily Edition</div>
+              <p class="trigger-desc">Every visitor receives that day's base collectible upon entry, featuring a cave animal motif. 12 themes rotate monthly throughout the year (wild horse, bison, mammoth, cave bear, woolly rhinoceros…), with limited editions released on solstices, equinoxes, and other special dates. Different visitors receive different collectibles depending on their visit date, creating a natural incentive to collect and return.</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">E</div>
+            <div>
+              <div class="trigger-title">Explorer Edition</div>
+              <p class="trigger-desc">Awarded for discovering hidden geometric symbols. Each carries a discovery sequence number ("You are the 237th person to find this symbol"). Lower numbers are rarer; early visitors naturally acquire greater scarcity value.</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">C</div>
+            <div>
+              <div class="trigger-title">Complete Set Reward</div>
+              <p class="trigger-desc">Collecting all of the current month's animal editions or finding all 5 geometric symbols unlocks a full animated cave scene collectible. All collectibles can be shared directly to social media, generating organic word-of-mouth.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SENSORY DESIGN -->
+<section id="sensory">
+  <div class="container">
+    <p class="section-label">Sensory & Interaction Design</p>
+    <h2>Seen, Heard, Smelled</h2>
+
+    <div class="seasons-grid" style="grid-template-columns:1fr 1fr 1fr; margin-bottom:2.5rem;">
+      <div class="season-cell">
+        <div class="season-name">Temperature</div>
+        <p class="season-desc">The space is maintained at approximately 17–18°C, cool like a cave without being uncomfortable. The VR exit area is slightly warmer, giving the body a sense of "leaving the cave."</p>
+      </div>
+      <div class="season-cell">
+        <div class="season-name">Scent · Gallery</div>
+        <p class="season-desc">Wet calcium carbonate + chalk mineral note + faint moist earth. A cold-mist diffuser at the entry creates a scent threshold — step inside and the atmosphere shifts.</p>
+      </div>
+      <div class="season-cell">
+        <div class="season-name">Scent · Exit</div>
+        <p class="season-desc">Petrichor / geosmin + cold outdoor air. A complete contrast to the gallery; VR visuals and olfactory experience sync.</p>
+      </div>
+    </div>
+
+    <h3>Sound Design</h3>
+
+    <p>Gallery-wide ambient soundscape: an ultra-low-frequency cave resonance (cave tone) as the foundation, felt more than heard. Irregular water drips spaced 12–25 seconds apart, with long reverb tails whose length hints at spatial depth. A very subtle airflow sound, as if an opening somewhere is breathing.</p>
+
+    <ul class="trigger-list">
+      <li class="trigger-item">
+        <div class="trigger-icon">F</div>
+        <div>
+          <div class="trigger-title">Bowl Ignition</div>
+          <p class="trigger-desc">A soft crackle of fat burning for 1–2 seconds, then a stable, low-frequency hum merges into the ambient soundscape and continues for 2–3 minutes before fading as the flame dims.</p>
+        </div>
+      </li>
+      <li class="trigger-item">
+        <div class="trigger-icon">A</div>
+        <div>
+          <div class="trigger-title">Animal Interaction</div>
+          <p class="trigger-desc">Directional spatial audio with sound source precisely aligned to the painting's position. Bison: a low chest-deep exhalation. Horse: a light, tense snort. Sound comes from the direction of the painting, not from speakers.</p>
+        </div>
+      </li>
+      <li class="trigger-item">
+        <div class="trigger-icon">W</div>
+        <div>
+          <div class="trigger-title">Whispered Commentary</div>
+          <p class="trigger-desc">Uses an invented syllable language — rhythmic and tonally varied, structured like real speech, but belonging to no existing language. Visitors cannot understand the literal content but feel the emotion and tone. Sound comes from the painting's position; the painting briefly glows afterward.</p>
+        </div>
+      </li>
+      <li class="trigger-item">
+        <div class="trigger-icon">S</div>
+        <div>
+          <div class="trigger-title">Hidden Symbol Discovery</div>
+          <p class="trigger-desc">A single strike of stone on stone — not repeated, dry and brief. Like an ancient signal of response.</p>
+        </div>
+      </li>
+    </ul>
+
+    <p>Scene 2's circular space features a dedicated ambient soundscape in each of the four directions: Spring — trickling water and distant birdsong; Summer — dense, low-frequency insect chorus; Autumn — intermittent wind and dry leaf rustle; Winter — near silence, with the occasional distant sound of ice cracking. As visitors move through the circular space, the sounds mix naturally by position. The central figures occupy a zone of continuous, barely perceptible fire sounds and an unintelligible low murmur.</p>
+
+    <div class="section-divider"></div>
+
+    <h3>Visual Interaction Language: Outline Tracing Animation</h3>
+
+    <p>When a cave painting animal is activated, a unified <strong>outline-tracing animation</strong> plays: beginning at the head of the animal's silhouette, a luminous line travels along the contour over 2–3 seconds, covering the whole body as if someone is redrawing the line with light. After completion, the entire outline performs one ember pulse (a slight rise and fall in brightness), then slowly fades within 2 seconds, returning to the painting's original state.</p>
+
+    <p>This animation carries two meanings: first, "this line was originally drawn in exactly this way," and second, "your lamplight has brought it back to life." The six-legged horse trigger is the fullest version — its six legs are traced in sequence corresponding to the rhythm of each stride, and the sense of motion emerges naturally through the tracing process.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-value">2–3s</span>
+        <span class="stat-label">tracing duration</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">2s</span>
+        <span class="stat-label">ember fade time</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">2–3min</span>
+        <span class="stat-label">bowl burn duration</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">Reset</span>
+        <span class="stat-label">bowls reset per group</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVENUE -->
+<section id="revenue">
+  <div class="container">
+    <p class="section-label">Revenue Model</p>
+    <h2>Ticketing-Led, Multi-Stream</h2>
+
+    <p>The project operates on a continuous flow model with no fixed showtimes. Groups of 6 enter every 5 minutes; the maximum on-site capacity is 18 visitors (approximately 6 per scene). With a ~30 minute experience and one group replacing the next, steady-state throughput is approximately 36 visitors/hour.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ticket price</td><td>¥120–180 / person</td></tr>
+          <tr><td>Group size</td><td>6 persons</td></tr>
+          <tr><td>Max on-site</td><td>18 persons (3 staggered groups)</td></tr>
+          <tr><td>Steady-state throughput</td><td>36 persons/hour</td></tr>
+          <tr><td>Daily operating hours</td><td>12 hours (10:00–22:00)</td></tr>
+          <tr><td>Annual operating days</td><td>280 days</td></tr>
+          <tr><td>Daily visitors (70% utilization)</td><td>~300 persons</td></tr>
+          <tr><td>Annual visitors</td><td>~84,000 persons</td></tr>
+          <tr class="table-highlight"><td>Annual ticket revenue (avg. ¥150)</td><td>~¥12.6M</td></tr>
+          <tr><td>Conservative business plan estimate</td><td>¥8–10M / year</td></tr>
+          <tr><td>Annual operating costs</td><td>TBD, subject to partnership structure</td></tr>
+          <tr class="table-highlight"><td>Annual net profit</td><td>Calculated upon operating cost structure</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>Revenue Sustainability</h3>
+
+    <p>Sustained ticket revenue requires sustained visitor flow. Several mechanisms support this:</p>
+
+    <p><strong>Content update cycles.</strong> The system architecture supports content module replacement. Cave art site segments can be rotated quarterly; the amphitheatre's seasonal content can receive special holiday editions. Visitors in the same city have reason to return every six months.</p>
+
+    <div class="revenue-grid">
+      <div class="revenue-item">
+        <div class="revenue-tag">Ticketing</div>
+        <p class="revenue-desc">Walk-in + group reservations</p>
+        <div class="revenue-amount">Primary</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Merchandise</div>
+        <p class="revenue-desc">Exit retail: replica stone bowls, cave art prints, oil lamp ornaments</p>
+        <div class="revenue-amount">¥30–50 / visitor</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Digital Collectibles</div>
+        <p class="revenue-desc">Hidden symbol discovery rewards + complete-set specials, via WeChat mini-program</p>
+        <div class="revenue-amount">On-demand pricing</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Venue Rental</div>
+        <p class="revenue-desc">Corporate team-building, brand events, school educational tours</p>
+        <div class="revenue-amount">¥20K–50K / event</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Content Licensing</div>
+        <p class="revenue-desc">System usage rights licensed to other venues</p>
+        <div class="revenue-amount">¥300K–800K / deployment</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Government Grants</div>
+        <p class="revenue-desc">Cultural industry support, night economy, educational programs</p>
+        <div class="revenue-amount">Subject to local policy</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Brand Partnership</div>
+        <p class="revenue-desc">Co-marketing with cultural brands related to the heritage sites</p>
+        <div class="revenue-amount">Project basis</div>
+      </div>
+    </div>
+
+    <p>Venue rental is especially valuable during off-peak periods — corporate events and school tours are time-flexible and can effectively fill non-holiday gaps.</p>
+
+    <p><strong>Merchandise and digital collectibles.</strong> An exit retail area offers products directly tied to the experience content: replica stone bowls (with flickering LED, take-home), cave art prints, oil lamp ornaments. Visitors who discover hidden symbols receive a discount code, converting exploratory behavior into purchasing motivation. Digital collectibles are distributed via WeChat mini-program with zero technical barrier, and are shareable — visitors who discover hidden content tend to share on social media, generating organic reach.</p>
+  </div>
+</section>
+
+<!-- REAL ESTATE -->
+<section id="realestate">
+  <div class="container">
+    <p class="section-label">Real Estate Integration</p>
+    <h2>Activating Silent Spaces</h2>
+
+    <h3>Utilizing Vacant Space</h3>
+    <p>Commercial real estate contains a persistent category of hard-to-lease space: basement levels, gallery end-caps, corner locations in large-footprint shopping centers. What these spaces share — enclosed, dim, far from main circulation — is precisely what immersive experiences require.</p>
+    <p>Cave Theatre requires only approximately 150–200 square meters, and can be integrated into such locations without disrupting the existing commercial layout. Hardware installation per venue costs approximately ¥100K–150K; from a ticket revenue recovery standpoint, the hardware investment can be recouped in roughly 2–3 months, after which the venue generates continuous net income.</p>
+    <p>From the property owner's perspective, this converts a zero-revenue or low-revenue floor area into a zone of stable daily output, while bringing foot traffic to the entire property.</p>
+
+    <h3>Traffic Value at Project Launch</h3>
+    <p>New commercial openings, sales center launches for residential developments, cultural tourism recruitment phases — these moments all require rapid generation of visits and buzz. Cave Theatre's visual environment (dark space, torchlight, animal murals) has high social media shareability, making it suitable as a limited-time experience to generate initial heat. The installation can be deployed in 2–3 weeks and relocated after the event concludes.</p>
+
+    <h3>Cultural Amenity Impact on Asset Value</h3>
+    <p>Commercial complexes with stable cultural programming show rental and sales premiums of approximately <strong>15–25%</strong> in multiple market case studies. This effect is especially pronounced for premium residential and upper-mid-tier commercial projects. A continuously operating immersive cultural space can serve as the cultural anchor for an entire development's positioning.</p>
+
+    <h3>Partnership Models</h3>
+    <div class="coop-grid">
+      <div class="coop-card">
+        <div class="coop-mode">Venue Partnership</div>
+        <p class="coop-role">Investor provides vacant space; we install and operate; ticket revenue shared by percentage</p>
+      </div>
+      <div class="coop-card">
+        <div class="coop-mode">Equity Investment</div>
+        <p class="coop-role">Investor funds hardware and content; we handle technology and operations; profit-sharing arrangement</p>
+      </div>
+      <div class="coop-card">
+        <div class="coop-mode">Turnkey Purchase</div>
+        <p class="coop-role">Investor purchases complete installation; we deliver and provide maintenance; project fee + annual maintenance</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPLICABILITY -->
+<section id="replicability">
+  <div class="container">
+    <p class="section-label">Scalability</p>
+    <h2>One Foundation, Infinite Themes</h2>
+
+    <p>The system operates on two tiers: <strong>infrastructure</strong> (hardware, positioning, rendering framework) and <strong>content</strong> (murals, animals, scene design).</p>
+    <p>Infrastructure is 100% reused across deployments; only content is newly produced each time. Content costs represent approximately 25–35% of total per-deployment cost.</p>
+    <p>From the second deployment onward, hardware need not be re-purchased, and accumulated installation and calibration experience significantly shortens deployment timelines. As projects accumulate, marginal costs continue to decline, and profit margins at the same revenue scale progressively improve.</p>
+    <p>The core prop system (oil lamp + UWB positioning + projection response) is not dependent on the cave theme — it can be transplanted to other narrative contexts. Examples: in a shadow puppet experience, visitors hold a light source that determines which puppet is illuminated and from which projection angle; or for a nighttime garden tour, the lamp determines how plants, architecture, and water respond. The mechanism remains the same; content and form are redesigned for each context.</p>
+
+    <h4>Extension Themes</h4>
+    <div class="theme-grid">
+      <div class="theme-cell">
+        <div class="theme-name">Dunhuang Murals</div>
+        <div class="theme-target">Chinese heritage institutions, northwestern cultural tourism</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Shadow Puppetry</div>
+        <div class="theme-target">Cultural tourism districts, traditional craft venues</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Ocean & Nature</div>
+        <div class="theme-target">Natural history museums, coastal commercial spaces</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Urban History</div>
+        <div class="theme-target">City cultural centers, historic districts</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Brand Custom</div>
+        <div class="theme-target">Luxury residential sales centers, flagship brand spaces</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACADEMIC -->
+<section id="academic">
+  <div class="container">
+    <p class="section-label">Academic Partnership & Cultural Exchange</p>
+    <h2>Connecting Two Worlds</h2>
+
+    <p>Sites such as Lascaux, Chauvet, and Rouffignac are national heritage properties managed by the French Ministry of Culture, and are also subjects of ongoing academic research. Institutions including the University of Bordeaux and the CNRS (Centre National de la Recherche Scientifique) have long-established expertise in prehistoric art.</p>
+
+    <p>We plan to engage with the French university system, inviting relevant scholars to participate in the project as advisors or partners. The practical value of academic collaboration is threefold: professional institutional backing for content accuracy; a credible credential when seeking authorization or accreditation from French cultural institutions; and access to French university and research networks that can support the project's reach within European cultural circles.</p>
+
+    <p>At the content level, this project has a natural Sino-French cultural intersection: French prehistoric heritage at its core, re-presented through digital technology by a Chinese team, operating in Chinese cities. This structure itself can serve as a concrete example of Sino-French cultural exchange, facilitating dialogue within the cultural institutions and official channels of both countries.</p>
+
+    <p>In the long term, after completing prototype validation in the Chinese market, we aim to bring the system and content to venues in France, creating a two-way flow: Chinese audiences experience the French prehistoric world; French audiences experience a Chinese team's contemporary interpretation of that same history.</p>
+
+    <div class="mystery-quote">
+      This collaboration framework is not limited to the cave painting project. Other invitro projects involving cultural content or operations in both China and France can be incorporated into the same academic partnership and cultural exchange structure, forming an ongoing relationship rather than a one-off project engagement.
+    </div>
+  </div>
+</section>
+
+<!-- TIMING -->
+<section id="timing">
+  <div class="container">
+    <p class="section-label">Market Timing</p>
+    <h2>The Entry Window Is Opening</h2>
+
+    <p>AI is lowering the cost of producing digital content. Animation, sound design, scene creation — work that previously required large teams can now be accomplished with AI tools in a fraction of the time, at less than half the production cost of three years ago.</p>
+    <p>For us, this is favorable: lower content production thresholds mean declining costs per deployment, making the commercial model increasingly viable.</p>
+    <p>At the same time, the proliferation of AI is making screen-based content ever richer and ever cheaper. Audiences can access large volumes of high-quality visual content at home, which paradoxically makes "must-be-there" physical experiences rarer and more valuable. Cave Theatre's experience depends on real physical space, real physical props, and real bodily presence — none of which digital content can substitute.</p>
+    <p>Now is a particularly suitable moment to enter this direction: AI tools are mature enough to help us reduce production costs, but large-scale competition in this category of physical experience has not yet emerged.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <p class="section-label">Team</p>
+    <h2>Creative & Academic</h2>
+
+    <div class="team-grid">
+      <div class="team-item">
+        <div class="team-role">Content Production</div>
+        <div>
+          <div class="team-name">In Vitro</div>
+          <p class="team-desc">Responsible for digital content, interactive systems, and overall experience design, with multiple deployed immersive installation projects.</p>
+        </div>
+      </div>
+      <div class="team-item">
+        <div class="team-role">Academic Liaison</div>
+        <div>
+          <div class="team-name">Li Bing</div>
+          <p class="team-desc">Postdoctoral researcher in cognitive science and psychology at the Université de Lille; responsible for engagement with French universities and research institutions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTMENT -->
+<section id="investment">
+  <div class="container">
+    <p class="section-label">Investment</p>
+    <h2>Two Phases</h2>
+
+    <div class="invest-phase">
+      <div class="invest-phase-header">
+        <div class="invest-phase-title">Phase 1: Prototype Validation (3 months)</div>
+        <div class="invest-phase-amount">¥ 300,000</div>
+      </div>
+      <div class="invest-phase-body">
+        <p>The goal is to complete a working prototype demonstrable to potential partner institutions, validating core technology and the experience logic.</p>
+        <div class="note">The following figures are preliminary estimates for reference scale only.</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Amount</th></tr></thead>
+            <tbody>
+              <tr><td>Hardware (UWB, projectors, props)</td><td>¥80,000</td></tr>
+              <tr><td>Content production (mural animation, sound, VR video)</td><td>¥120,000</td></tr>
+              <tr><td>Venue & installation</td><td>¥50,000</td></tr>
+              <tr><td>Contingency & calibration</td><td>¥50,000</td></tr>
+              <tr class="table-highlight"><td>Total</td><td>¥300,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Deliverables:</strong> A fully operational experience prototype + demonstration video + initial contact with first-round partner institutions.</p>
+      </div>
+    </div>
+
+    <div class="invest-phase">
+      <div class="invest-phase-header">
+        <div class="invest-phase-title">Phase 2: First Commercial Deployment</div>
+        <div class="invest-phase-amount">¥ 400K–800K</div>
+      </div>
+      <div class="invest-phase-body">
+        <p>Scope determined after prototype validation and first venue partnership confirmation. Estimated additional investment of ¥400K–800K (including replica fabrication and venue fit-out), followed by public ticketed operations.</p>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>Key Risks</h3>
+    <div class="risk-list">
+      <div class="risk-item">
+        <div class="risk-title">Replica Fabrication Cost Variability</div>
+        <p class="risk-desc">The price range for fiberglass wall replicas is wide, depending on precision and manufacturer. A simplified version can be used in the prototype phase to control costs; supplier and pricing will be confirmed before the commercial deployment.</p>
+      </div>
+      <div class="risk-item">
+        <div class="risk-title">Visitor Volume Forecast Uncertainty</div>
+        <p class="risk-desc">Ticket revenue projections assume stable utilization rates. Actual operations in the initial period may include a ramp-up phase with revenue below steady state for the first two months. It is recommended to simultaneously test pricing and reservation conversion rates during the prototype validation phase.</p>
+      </div>
+      <div class="risk-item">
+        <div class="risk-title">Venue Partnership Negotiation Timeline</div>
+        <p class="risk-desc">Negotiations with museums or commercial properties typically take 2–4 months. Commercial space partnerships tend to move faster and can be prioritized as the target for the first deployment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPENDIX -->
+<section id="appendix">
+  <div class="container">
+    <p class="section-label">Appendix</p>
+    <h2>Technical Specification & Budget</h2>
+
+    <h3>Appendix A: Technical Architecture</h3>
+
+    <h4>Core System Architecture</h4>
+    <div class="code-block">[UWB Anchors × 6–8, ceiling-mounted]
+        ↓ real-time coordinates (UDP/OSC)
+[Main PC: Windows + RTX 4080]
+    Unity — behavioral logic + projection lighting render
+        ↓ KlakSpout (GPU VRAM direct transfer)
+    Resolume Arena — multi-projector blending output
+        ↓ DisplayPort × 4–6
+    [Wall projectors]
+
+[Secondary PC: Mac Mini]
+    QLab — spatial audio + footprint sequence + DMX lighting
+        ↓ OSC bidirectional communication with main PC
+
+[VR Viewers]
+    Quest 3 standalone, Skybox VR playing 360° stereoscopic video</div>
+
+    <h4>Oil Lamp Prop</h4>
+    <p>Exterior modeled on Paleolithic fat lamp forms, resin 3D-printed shell, containing:</p>
+    <ul class="spec-list">
+      <li>Positioning module <span>ESP32 + DW1000 UWB, accuracy ±15–30cm</span></li>
+      <li>Light source <span>2700K warm white LED, slight irregular flicker</span></li>
+      <li>Battery <span>5000mAh, ~20 hours runtime</span></li>
+      <li>Unit cost <span>~¥650; first batch 12–15 units</span></li>
+    </ul>
+
+    <h4>Projection Lighting Principle</h4>
+    <p>The replica surfaces have genuine physical relief. The system builds a corresponding 3D model for each replica segment, renders via a virtual projector camera in Unity, and outputs an image that geometrically matches the physical surface when projected. The lamp position serves as a virtual point light source, calculating in real time the direction of illumination on the rock surface — raised areas catch light, recessed areas cast shadows, and the effect shifts as the lamp angle changes.</p>
+
+    <div class="section-divider"></div>
+
+    <h3>Appendix B: Budget Detail</h3>
+    <div class="note">The figures below are preliminary planning estimates for reference scale only. Actual amounts are subject to supplier quotes, venue conditions, and specific configuration, and will be recalculated before commercial deployment.</div>
+
+    <h4>Prototype Phase (6m demo segment, 4 oil lamps)</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Item</th><th>Subtotal</th></tr></thead>
+        <tbody>
+          <tr><td>UWB Positioning</td><td>Anchors ×4 + Tags ×4 (DW1000)</td><td>¥6,000</td></tr>
+          <tr><td>Projectors</td><td>Standard-throw engineering projectors ×2</td><td>¥16,000–24,000</td></tr>
+          <tr><td>Control PC</td><td>Windows render host (RTX 4070 grade)</td><td>¥12,000</td></tr>
+          <tr><td>Oil Lamp Props</td><td>Shell + charging + LED + assembly ×4</td><td>¥5,000</td></tr>
+          <tr><td>Projection Mounting</td><td>Mounts + cabling</td><td>¥4,000</td></tr>
+          <tr><td>Hand Print Recognition</td><td>IR camera + stand</td><td>¥6,000</td></tr>
+          <tr><td>Lighting Control</td><td>Enttec DMX controller</td><td>¥5,000</td></tr>
+          <tr><td>Scent System</td><td>Diffuser unit + scent formulas</td><td>¥4,000</td></tr>
+          <tr><td>Consumables & Spares</td><td>—</td><td>¥3,000</td></tr>
+          <tr class="table-highlight"><td>Hardware Subtotal</td><td></td><td>¥61,000–69,000</td></tr>
+          <tr><td>Resolume Arena</td><td>Projection software</td><td>¥6,500</td></tr>
+          <tr><td>QLab</td><td>Free version for prototype phase</td><td>¥0</td></tr>
+          <tr class="table-highlight"><td>Prototype Total</td><td></td><td>~¥68,000–76,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Full Installation (18m gallery + amphitheatre, 12 oil lamps)</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Subtotal</th></tr></thead>
+        <tbody>
+          <tr><td>UWB Positioning System (Anchors ×8 + Tags ×12)</td><td>¥12,000</td></tr>
+          <tr><td>Projectors (Gallery ×3 + Amphitheatre ×4)</td><td>¥56,000–84,000</td></tr>
+          <tr><td>Control PC (Render host RTX 4080 grade)</td><td>¥18,000</td></tr>
+          <tr><td>Oil Lamp Props ×12</td><td>¥15,000</td></tr>
+          <tr><td>Cave Replicas (CNC foam + hard coating, ~20㎡)</td><td>¥12,000–20,000</td></tr>
+          <tr><td>Amphitheatre scrim screen + installation</td><td>¥5,000–12,000</td></tr>
+          <tr><td>Projection mounts + cabling</td><td>¥8,000</td></tr>
+          <tr><td>VR Viewers (Quest 3 ×6 + housing + suspension)</td><td>¥30,000</td></tr>
+          <tr><td>Hand print recognition camera</td><td>¥6,000</td></tr>
+          <tr><td>Scent system (entry + exit)</td><td>¥8,000</td></tr>
+          <tr><td>Audio equipment (spatial audio speakers + amplifier)</td><td>¥15,000–25,000</td></tr>
+          <tr><td>DMX lighting control</td><td>¥5,000</td></tr>
+          <tr><td>Consumables & spares</td><td>¥5,000</td></tr>
+          <tr class="table-highlight"><td>Hardware Total</td><td>~¥195,000–248,000</td></tr>
+          <tr><td>Resolume Arena</td><td>¥6,500</td></tr>
+          <tr><td>QLab Video + Audio</td><td>¥5,500 / year</td></tr>
+          <tr class="table-highlight"><td>Full Installation Total (Year 1)</td><td>~¥207,000–260,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Cave Theatre · 洞穴剧场</div>
+  <p class="footer-meta">In Vitro · March 2026 · Confidential</p>
+</footer>
+
+
+<!-- TORCH OVERLAY -->
+<div id="torchOverlay"></div>
+<div id="fireCursor">
+  <div class="fire-outer"></div>
+  <div class="fire-mid"></div>
+  <div class="fire-core"></div>
+</div>
+
+<script>
+(function() {
+  const overlay  = document.getElementById('torchOverlay');
+  const cursor   = document.getElementById('fireCursor');
+
+  let targetX = window.innerWidth  / 2;
+  let targetY = window.innerHeight / 2;
+  let curX    = targetX;
+  let curY    = targetY;
+  let active  = false;
+
+  // Mouse tracking
+  document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    if (!active) {
+      active = true;
+      overlay.style.opacity = '1';
+    }
+  });
+
+  // Hide effect when mouse leaves
+  document.addEventListener('mouseleave', () => {
+    active = false;
+    overlay.style.opacity = '0';
+  });
+
+  // Text shadow targets: headings + section labels
+  function updateShadows(mx, my) {
+    const els = document.querySelectorAll('h1, h2, h3, .hero-title, .hero-subtitle, .mystery-quote');
+    els.forEach(el => {
+      const r    = el.getBoundingClientRect();
+      const cx   = r.left + r.width  / 2;
+      const cy   = r.top  + r.height / 2;
+      const dx   = cx - mx;
+      const dy   = cy - my;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      // Shadow falls away from the light source
+      const maxDist   = 700;
+      const intensity = Math.max(0, 1 - dist / maxDist);
+      const scale     = 5 * intensity;
+      const sx        = (dx / dist) * scale;
+      const sy        = (dy / dist) * scale;
+      const blur      = 10 * intensity;
+      const alpha     = 0.75 * intensity;
+
+      el.style.textShadow = intensity > 0.02
+        ? `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(1)}px rgba(180, 90, 0, ${alpha.toFixed(2)})`
+        : '';
+    });
+  }
+
+  function tick() {
+    // Smooth lag for cursor
+    curX += (targetX - curX) * 0.10;
+    curY += (targetY - curY) * 0.10;
+
+    // Fire cursor position
+    cursor.style.left = curX + 'px';
+    cursor.style.top  = curY + 'px';
+
+    // Soft warm glow at cursor — screen blend only brightens, never darkens
+    const flicker = 1 + (Math.random() - 0.5) * 0.05;
+    const r = Math.round(480 * flicker);
+    overlay.style.background =
+      `radial-gradient(ellipse ${r}px ${r}px at ${curX.toFixed(0)}px ${curY.toFixed(0)}px,
+        rgba(255, 155, 40, 0.13) 0%,
+        rgba(255, 120, 20, 0.06) 30%,
+        rgba(220, 90,  10, 0.02) 60%,
+        transparent 100%)`;
+
+    updateShadows(curX, curY);
+    requestAnimationFrame(tick);
+  }
+
+  tick();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Théâtre des Cavernes — Présentation du Projet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0905;
+    --surface: #131109;
+    --surface-2: #1a170e;
+    --surface-3: #211e14;
+    --accent: #c8893a;
+    --accent-light: #dfa84e;
+    --accent-dim: #8a5e24;
+    --text: #f0e8d8;
+    --text-secondary: #c0b4a0;
+    --text-dim: #7a7060;
+    --border: #2a2518;
+    --border-accent: #3d3220;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10, 9, 5, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0 0.9rem;
+    line-height: 52px;
+    display: block;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--accent-light); }
+
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  .lang-switch a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.15rem 0.35rem;
+    transition: color 0.2s;
+  }
+  .lang-switch a:hover { color: var(--accent-light); }
+  .lang-switch a.active { color: var(--accent); }
+  .lang-switch span { color: var(--border-accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(180, 110, 30, 0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 30% 40%, rgba(100, 60, 10, 0.05) 0%, transparent 60%);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-meta {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--accent-dim), transparent);
+    margin: 3rem auto 0;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 400;
+    color: var(--text);
+    margin: 3.5rem 0 1.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  h3:first-of-type { margin-top: 0; }
+
+  h4 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 2rem 0 0.8rem;
+  }
+
+  /* ── TEXT ── */
+  p {
+    color: var(--text);
+    margin-bottom: 1.4rem;
+    font-size: 0.97rem;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  em {
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .mystery-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1.7;
+    border-left: 2px solid var(--accent-dim);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  /* ── IMAGES ── */
+  .scene-image {
+    width: 100%;
+    margin: 2rem 0;
+    border: 1px solid var(--border-accent);
+    display: block;
+    position: relative;
+  }
+
+  .scene-image img {
+    width: 100%;
+    display: block;
+    filter: brightness(0.92) contrast(1.05);
+  }
+
+  .scene-image figcaption {
+    padding: 0.7rem 1rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .video-wrap {
+    width: 100%;
+    margin: 2rem 0;
+    border: 1px solid var(--border-accent);
+    background: #000;
+  }
+
+  .video-wrap video {
+    width: 100%;
+    display: block;
+    max-height: 480px;
+    object-fit: cover;
+  }
+
+  .video-caption {
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── SCENE CARD ── */
+  .scene-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin: 3rem 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .scene-card-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .scene-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--accent-dim);
+    line-height: 1;
+  }
+
+  .scene-title-wrap {}
+  .scene-title-wrap h3 { margin: 0 0 0.2rem; font-size: 1.3rem; }
+  .scene-size {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .scene-card-body { padding: 2rem; }
+
+  /* ── TRIGGERS ── */
+  .trigger-list {
+    margin: 1.5rem 0;
+    list-style: none;
+  }
+
+  .trigger-item {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trigger-item:last-child { border-bottom: none; }
+
+  .trigger-icon {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .trigger-title {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .trigger-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── SEASONS ── */
+  .seasons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .season-cell {
+    background: var(--surface-2);
+    padding: 1.2rem 1.5rem;
+  }
+
+  .season-name {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .season-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th {
+    text-align: left;
+    padding: 0.9rem 1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent-dim);
+    font-weight: 500;
+    background: var(--surface-2);
+  }
+
+  td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  td:first-child { color: var(--text); }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-2); }
+
+  .table-highlight td {
+    color: var(--text);
+    font-weight: 500;
+    background: var(--surface-3);
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1.1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* ── REVENUE SOURCES ── */
+  .revenue-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .revenue-item {
+    background: var(--surface);
+    padding: 1.2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 7rem 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .revenue-tag {
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .revenue-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .revenue-amount {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ── COOP MODES ── */
+  .coop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .coop-card {
+    background: var(--surface);
+    padding: 1.5rem;
+  }
+
+  .coop-mode {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .coop-role {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── THEME TABLE ── */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .theme-cell {
+    background: var(--surface);
+    padding: 1.2rem;
+  }
+
+  .theme-name {
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .theme-target {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── RISK ITEMS ── */
+  .risk-list { margin: 1.5rem 0; }
+
+  .risk-item {
+    border-left: 2px solid var(--border-accent);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--surface);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .risk-item:hover { border-left-color: var(--accent-dim); }
+
+  .risk-title {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  .risk-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ── APPENDIX ── */
+  .appendix-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .code-block {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    color: #a0c080;
+    line-height: 1.9;
+    overflow-x: auto;
+    margin: 1rem 0;
+    white-space: pre;
+  }
+
+  .spec-list {
+    list-style: none;
+    margin: 1rem 0;
+  }
+
+  .spec-list li {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .spec-list li:last-child { border-bottom: none; }
+
+  .spec-list li span { color: var(--text-dim); font-size: 0.82rem; }
+
+  /* ── NOTE ── */
+  .note {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    border-left: 1px solid var(--border-accent);
+    padding: 0.8rem 1rem;
+    margin: 1.5rem 0;
+    line-height: 1.7;
+  }
+
+  /* ── TEAM ── */
+  .team-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .team-item {
+    background: var(--surface);
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .team-role {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-top: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .team-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .team-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── INVESTMENT ── */
+  .invest-phase {
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .invest-phase-header {
+    background: var(--surface-2);
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .invest-phase-title {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+
+  .invest-phase-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--accent-light);
+  }
+
+  .invest-phase-body { padding: 1.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--accent-dim);
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-meta {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-accent), transparent);
+    margin: 3rem 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-brand { font-size: 0.85rem; }
+    .container { padding: 0 1.2rem; }
+    section { padding: 4rem 0; }
+    .scene-card-body { padding: 1.2rem; }
+    .revenue-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .revenue-amount { text-align: left; }
+    .seasons-grid { grid-template-columns: 1fr; }
+    .invest-phase-header { flex-direction: column; gap: 0.3rem; }
+    .team-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  /* ── TORCH CURSOR ── */
+  * { cursor: none !important; }
+
+  #torchOverlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 0.5s;
+    mix-blend-mode: screen;
+  }
+
+  #fireCursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 201;
+    transform: translate(-50%, -70%);
+    width: 0;
+    height: 0;
+  }
+
+  .fire-outer {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,160,30,0.18) 0%, transparent 70%);
+    animation: fireOuter 0.25s ease-in-out infinite alternate;
+  }
+
+  .fire-mid {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,200,80,0.35) 0%, transparent 70%);
+    animation: fireMid 0.18s ease-in-out infinite alternate;
+  }
+
+  .fire-core {
+    position: absolute;
+    width: 7px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse at 50% 70%, #fff8e0 0%, #ffcc44 40%, #ff8800 80%, transparent 100%);
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    box-shadow:
+      0 0 6px 3px rgba(255, 200, 60, 0.7),
+      0 0 14px 6px rgba(255, 130, 10, 0.45),
+      0 0 28px 12px rgba(200, 80, 0, 0.2);
+    animation: fireCore 0.12s ease-in-out infinite alternate;
+  }
+
+  @keyframes fireCore {
+    from { transform: translate(-50%, -50%) scaleX(1)   scaleY(1); }
+    to   { transform: translate(-50%, -50%) scaleX(0.88) scaleY(1.08); }
+  }
+  @keyframes fireMid {
+    from { transform: translate(-50%, -50%) scale(1);    opacity: 0.9; }
+    to   { transform: translate(-50%, -50%) scale(1.15); opacity: 0.6; }
+  }
+  @keyframes fireOuter {
+    from { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+    to   { transform: translate(-50%, -50%) scale(1.2);  opacity: 0.4; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Théâtre des Cavernes</div>
+  <ul class="nav-links">
+    <li><a href="#overview">Aperçu</a></li>
+    <li><a href="#subject">Sujet</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#sensory">Sensoriel</a></li>
+    <li><a href="#revenue">Revenus</a></li>
+    <li><a href="#realestate">Immobilier</a></li>
+    <li><a href="#replicability">Réplicabilité</a></li>
+    <li><a href="#academic">Académique</a></li>
+    <li><a href="#timing">Calendrier</a></li>
+    <li><a href="#team">Équipe</a></li>
+    <li><a href="#investment">Investissement</a></li>
+    <li><a href="#appendix">Annexes</a></li>
+  </ul>
+  <div class="lang-switch">
+    <a href="../cn/">中</a><span>|</span><a href="../en/">EN</a><span>|</span><a href="../fr/" class="active">FR</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Présentation du Projet · Mars 2026</p>
+  <h1 class="hero-title">Théâtre des Cavernes</h1>
+  <p class="hero-subtitle">洞穴剧场 — Une Expérience Immersive</p>
+  <p class="hero-meta">150–200 ㎡ &nbsp;·&nbsp; ~30 min &nbsp;·&nbsp; 6 personnes par groupe &nbsp;·&nbsp; Flux continu</p>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <p class="section-label">Aperçu du Projet</p>
+    <h2>Un Système, des Récits Infinis</h2>
+
+    <p class="lead">Le Théâtre des Cavernes est une installation immersive inspirée des peintures rupestres préhistoriques françaises, destinée aux espaces commerciaux, aux musées et aux sites culturels et touristiques.</p>
+
+    <p>L'expérience s'étend sur environ 150 à 200 mètres carrés, répartis en trois espaces consécutifs, pour une durée totale d'environ 30 minutes. Le fonctionnement suit un modèle de flux continu : des groupes de 6 personnes entrent toutes les 5 minutes, avec un maximum de 18 visiteurs sur site à tout moment — lorsqu'un groupe sort, un autre entre, sans créneaux horaires fixes. À l'entrée, chaque visiteur prend une lampe à huile qui l'accompagne tout au long de l'expérience.</p>
+
+    <p>Au cœur du dispositif se trouve un système personnalisé de détection spatiale et de projection qui suit en temps réel la position de chaque lampe, pilotant un éclairage de projection dynamique et un contenu réactif. L'architecture matérielle et logicielle est construite une seule fois et réutilisée sur plusieurs déploiements, avec un contenu remplacé par projet pour permettre la réplication multi-sites.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-value">150–200</span>
+        <span class="stat-label">mètres carrés</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">~30</span>
+        <span class="stat-label">min d'expérience</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">6</span>
+        <span class="stat-label">par groupe</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">3</span>
+        <span class="stat-label">scènes consécutives</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECT -->
+<section id="subject">
+  <div class="container">
+    <p class="section-label">Pourquoi les Peintures Rupestres</p>
+    <h2>Un Mystère Vieux de Trente Mille Ans</h2>
+
+    <p>Les peintures de la grotte Chauvet remontent à environ 36 000 ans ; celles de Lascaux à environ 17 000 ans — un écart de près de 20 000 ans. Pourtant, tout au long de cette immense période, les humains préhistoriques ont continué à peindre au cœur des cavernes, jusqu'à ce que cette pratique s'arrête soudainement il y a environ 10 000 ans. Personne ne sait pourquoi. Personne ne sait ce que ces images signifiaient. Étaient-elles rituelles, des archives, un langage totalement oublié ? Ces récits ont perduré trente mille ans, puis sont devenus des énigmes éternelles.</p>
+
+    <div class="mystery-quote">
+      Ils ont attendu sur les parois rocheuses pendant trente mille ans. Toujours sans réponse.
+    </div>
+
+    <div class="section-divider"></div>
+
+    <p>Les grottes préhistoriques du sud-ouest de la France représentent le plus grand ensemble de sites d'art préhistorique connu à ce jour ; l'UNESCO en a classé plusieurs au patrimoine mondial. Ces grottes ont pourtant été fermées au public les unes après les autres pour des raisons de conservation — Lascaux est inaccessible depuis 1963, et Chauvet est scellée depuis sa découverte en 1994. Ce que les visiteurs du monde entier peuvent voir aujourd'hui sont presque exclusivement des répliques produites par des institutions spécialisées.</p>
+
+    <p>Le gouvernement français a investi plus de 57 millions d'euros dans le centre de réplique Lascaux IV — la réplique elle-même est devenue la forme officielle de ce patrimoine face au public. La technologie d'aujourd'hui permet aux répliques d'aller bien au-delà : elles peuvent être interactives, réactives au comportement des visiteurs, et déployables dans n'importe quelle ville. Les contraintes géographiques et spatiales ne sont plus des obstacles, et pour la première fois, le plein potentiel de vivre ce patrimoine s'est ouvert.</p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">L'Expérience</p>
+    <h2>Trois Espaces Consécutifs</h2>
+
+    <!-- SCENE 1 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">01</div>
+        <div class="scene-title-wrap">
+          <h3>La Galerie des Répliques</h3>
+          <div class="scene-size">environ 12 × 5 m</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="../assets/6.png" alt="Scène 1 : La Galerie des Répliques">
+          <figcaption>Scène 1 — Référence de rendu conceptuel</figcaption>
+        </figure>
+
+        <p>Un côté de la galerie présente 3 à 4 sections de parois de grotte répliquées, correspondant à des sites réels : la Salle des Taureaux de Lascaux, la grotte Chauvet, et la frise des mammouths de Rouffignac. Les répliques sont fabriquées en fibre de verre avec des enduits minéraux, reproduisant fidèlement le relief de surface des roches réelles.</p>
+
+        <p>En entrant, la salle est plongée dans une quasi-obscurité totale. Les visiteurs prennent une lampe sur le présentoir — la lampe s'allume dans leur main. À côté du présentoir se trouve un bol en pierre, vide, attendant d'être allumé. Les visiteurs approchent instinctivement leur lampe ; la flamme simulée à l'intérieur du bol s'allume, vacillant de manière irrégulière en tons chauds. Au même moment, la porte de projection à l'entrée de la galerie s'ouvre lentement. Ce geste ne nécessite aucune instruction — il offre simultanément un début rituel aux visiteurs et leur enseigne que la lampe peut illuminer des choses dans l'espace.</p>
+
+        <p>Seul là où brille la lampe apparaît la lumière. Le reste reste dans l'obscurité — exactement dans la même condition que les peintres préhistoriques qui pénétraient dans ces grottes avec une seule lampe, ne pouvant voir que dans ce cercle de lumière.</p>
+
+        <p>Le long des parois de la galerie, 5 à 6 bols en pierre sont encastrés dans les surfaces de répliques. Tout visiteur s'approchant seul fait s'illuminer un bol — la LED à flamme simulée produit un vacillement naturel et irrégulier tout en éclairant la section adjacente de la peinture rupestre : les couleurs s'approfondissent, les détails émergent. Plus il y a de bols allumés le long du couloir, plus l'espace ressemble aux conditions de travail des peintres préhistoriques.</p>
+
+        <figure class="scene-image">
+          <img src="../assets/7.png" alt="Effet d'illumination du bol en pierre">
+        </figure>
+
+        <div class="section-divider"></div>
+
+        <h4>Environnement Sensoriel</h4>
+        <p>À l'entrée, le parfum est celui du calcaire et du minéral, portant la fraîcheur caractéristique des grottes. Cela est contrôlé par un diffuseur olfactif à l'entrée, complètement isolé de l'air extérieur. Le système sonore maintient une couche ambiante profonde dans toute la galerie — la résonance des parois rocheuses, le bruit faible et distant de gouttes d'eau à intervalles, le murmure occasionnel d'un courant d'air — ne constituant pas d'événements sonores distincts, mais donnant à l'espace la bonne texture. Les pas y sonnent différemment d'une salle d'exposition ordinaire ; les visiteurs ralentissent instinctivement. Ces trois couches sensorielles — parfum, obscurité, son — établissent ensemble un espace sensoriel authentique.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Système d'Éclairage en Temps Réel</h4>
+        <p>La position de la lampe est suivie en temps réel par des capteurs UWB ; le système de projection génère un éclairage correspondant sur la surface de la réplique en fonction des coordonnées. Parce que les répliques ont un véritable relief physique, la lumière arrivant sous différents angles produit différentes ombres en bas-relief — la texture de la roche est réelle, pas une simulation plane.</p>
+
+        <p>Il existe un type d'expérience dans les vraies grottes très difficile à reproduire dans des expositions statiques : de nombreuses peintures rupestres intègrent des lignes incisées qui sont presque invisibles sous la lumière directe, n'apparaissant que lorsque la lumière rase la surface à un angle bas et oblique. C'était intentionnel de la part des peintres préhistoriques — l'image se révèle selon l'angle de la lumière, pas comme une image fixe. Nous superposons une couche de projection en temps réel sur les surfaces de répliques de sorte que la direction de la lampe affecte directement la direction de la lumière et de l'ombre sur la paroi. Lorsque les visiteurs déplacent leur lampe, certains détails sur la surface rocheuse émergent progressivement de l'obscurité. Cette expérience n'est normalement disponible que pour ceux qui marchent dans de vraies grottes avec une torche — nous l'apportons dans l'espace d'exposition.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Deux Types d'Événements Déclencheurs</h4>
+        <ul class="trigger-list">
+          <li class="trigger-item">
+            <div class="trigger-icon">①</div>
+            <div>
+              <div class="trigger-title">Commentaire Murmuré</div>
+              <p class="trigger-desc">Lorsqu'une lampe s'attarde devant une section de peinture rupestre pendant plus de 8 secondes, un audio spatial est déclenché depuis la direction de la peinture — pas une diffusion, mais un murmure proche décrivant un détail spécifique de cette peinture. Le langage utilise des syllabes inventées avec une variation rythmique et tonale ressemblant à la structure d'une vraie parole, mais n'appartenant à aucune langue existante. Les auditeurs ne peuvent pas comprendre le contenu littéral mais peuvent ressentir l'émotion et l'intention. Après la fin du son, la zone de la peinture brille brièvement d'un reflet façon braise, puis s'estompe.</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">②</div>
+            <div>
+              <div class="trigger-title">Activation Animale</div>
+              <p class="trigger-desc">Lorsqu'une lampe s'approche très près d'un animal peint, une animation de traçage de contour est déclenchée : une ligne lumineuse commence à la tête et parcourt le contour pendant 2 à 3 secondes, couvrant tout le corps comme s'il était redessiné, puis émet une impulsion de braise avant de s'estomper en 2 secondes. Le cheval de Lascaux a six pattes, l'aurochs en a huit — c'était la façon des peintres préhistoriques d'exprimer le mouvement par de multiples membres. Lorsque le cheval à six pattes est déclenché, ses six pattes sont tracées en séquence correspondant au rythme de ses foulées ; le sens du mouvement émerge naturellement au cours du processus de traçage.</p>
+            </div>
+          </li>
+        </ul>
+
+        <figure class="scene-image">
+          <img src="../assets/5.png" alt="Effet d'animation de traçage du contour animal">
+        </figure>
+
+        <p>À l'extrémité de la Scène 1, lorsqu'un visiteur se dirige vers la zone de sortie et fait une pause, une projection d'empreintes au sol apparaît — un ensemble d'empreintes humaines et de traces animales s'étendant depuis l'extrémité de la galerie vers l'entrée de la Scène 2, guidant les visiteurs à suivre.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Contenu Caché : Symboles Géométriques</h4>
+        <p>Les vraies peintures rupestres contiennent de nombreux motifs géométriques de signification inconnue — spirales, tableaux de points, symboles en forme de grille — que les spécialistes n'ont pas pu expliquer. Ces mêmes symboles sont cachés dans les parois de répliques de l'espace d'exposition, mais sont complètement invisibles à des angles d'éclairage normaux. Ce n'est que lorsqu'une lampe à huile est approchée très près à un angle très bas et oblique que les symboles émergent de la surface. Un signal audio subtil signale la découverte ; le symbole brille brièvement, puis s'estompe. Au total, 5 symboles sont cachés dans les trois scènes, répartis à différents endroits.</p>
+      </div>
+    </div>
+
+    <!-- SCENE 2 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">02</div>
+        <div class="scene-title-wrap">
+          <h3>L'Amphithéâtre</h3>
+          <div class="scene-size">environ 8–10 m de diamètre, 4 m de hauteur</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="../assets/3.png" alt="Scène 2 : L'Amphithéâtre">
+          <figcaption>Scène 2 — Référence de rendu conceptuel</figcaption>
+        </figure>
+
+        <p>L'espace circulaire dispose d'une surface de projection continue à 360°. Quatre directions correspondent à quatre saisons, fonctionnant simultanément :</p>
+
+        <div class="seasons-grid">
+          <div class="season-cell">
+            <div class="season-name">Printemps</div>
+            <p class="season-desc">Une jument et son poulain sortent des profondeurs de l'image ; un troupeau de cerfs migre vers la droite</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">Été</div>
+            <p class="season-desc">Les bisons se rassemblent en troupeaux denses, les taureaux de grande taille, avec un banc de saumons nageant en dessous</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">Automne</div>
+            <p class="season-desc">Deux cerfs mâles se font face, bois entièrement déployés, en confrontation</p>
+          </div>
+          <div class="season-cell">
+            <div class="season-name">Hiver</div>
+            <p class="season-desc">Animaux épars, empreintes de mains superposées sur la roche, symboles géométriques dispersés</p>
+          </div>
+        </div>
+
+        <p>Les quatre saisons coexistent dans cet espace circulaire. Les visiteurs se dirigent vers la direction qui les attire, entrant dans le tableau de cette saison.</p>
+
+        <p>Les animaux sur les parois semblent flotter sur la surface rocheuse ; lorsqu'une lampe s'approche, ils projettent des ombres qui se déplacent avec la source lumineuse — calculées en temps réel, suivant la lampe du visiteur. Chaque espèce réagit différemment à la lumière : le poulain s'arrête avec curiosité et tourne la tête vers la source lumineuse ; le bison le plus proche du troupeau réagit d'abord avec vigilance, qui se propage vers l'arrière du groupe ; le cerf s'approche lentement d'un visiteur qui tient sa lampe immobile. Dans la section Hiver, les empreintes de mains brillent faiblement lorsqu'une lampe s'approche ; les visiteurs peuvent approcher leur main de la paroi et une caméra capture la forme de la main, superposant leur propre empreinte à côté des anciennes — elle s'estompe lentement après environ 60 secondes.</p>
+
+        <div class="video-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="../assets/grotte_1.mp4" type="video/mp4">
+          </video>
+          <div class="video-caption">Enregistrement de test de projection en temps réel</div>
+        </div>
+
+        <p>Au centre de l'espace circulaire, une projection semi-transparente montre plusieurs silhouettes humaines préhistoriques. Ils sont assis autour d'un petit feu — regardant les flammes, traçant des formes dans le sol avec leurs doigts, debout à écouter des sons lointains. Ils ne regardent pas les visiteurs, ne répondent à aucune action, mais existent simplement dans leur propre temps. Les visiteurs marchent autour d'eux, les illuminant avec leurs lampes.</p>
+      </div>
+    </div>
+
+    <!-- SCENE 3 -->
+    <div class="scene-card">
+      <div class="scene-card-header">
+        <div class="scene-number">03</div>
+        <div class="scene-title-wrap">
+          <h3>Sortie : Belvédère VR</h3>
+          <div class="scene-size">environ 4 × 4 m</div>
+        </div>
+      </div>
+      <div class="scene-card-body">
+        <figure class="scene-image">
+          <img src="../assets/4.png" alt="Scène 3 : Belvédère VR">
+          <figcaption>Scène 3 — Référence de rendu conceptuel</figcaption>
+        </figure>
+
+        <p>La zone de sortie dispose de 6 viewers VR suspendus disposés en demi-cercle, formant une petite plateforme d'observation. Enveloppés dans des boîtiers en métal sombre, chaque visiteur colle ses yeux à un viewer et regarde — comme avec un télescope — pendant environ 40 secondes. Les 6 personnes entrent et sortent ensemble, sans attente.</p>
+
+        <p>Dans le viewer se trouve une vidéo stéréoscopique à 360° : le point de vue se situe à l'entrée de la grotte, regardant vers un terrain préhistorique ouvert — une large vallée fluviale, une prairie ambrée, un troupeau de chevaux sauvages se déplaçant lentement au milieu de la scène, un groupe de mammouths avec leurs petits traversant la plaine au loin. En se retournant, une faible lueur de feu brille encore à l'intérieur de la grotte.</p>
+
+        <p>Pas de narration. Pas de commentaire. Juste ce monde, présent en silence.</p>
+
+        <p>Le parfum ici a changé — plus de calcaire, mais de l'herbe mouillée et de l'air frais. Un point de retour est installé à la sortie. Les visiteurs remettent leur lampe, et elle s'éteint.</p>
+
+        <div class="section-divider"></div>
+
+        <h4>Sortie : Objets Numériques Collectibles</h4>
+        <p>Après avoir rendu la lampe, les visiteurs scannent un QR code à la sortie pour accéder à un mini-programme WeChat et récupérer leur objet numérique collectible de l'expérience. Le système de collectibles fonctionne sur trois niveaux :</p>
+        <ul class="trigger-list">
+          <li class="trigger-item">
+            <div class="trigger-icon">J</div>
+            <div>
+              <div class="trigger-title">Édition Quotidienne</div>
+              <p class="trigger-desc">Chaque visiteur reçoit le collectible de base du jour dès son entrée, mettant en vedette un motif d'animal de grotte. 12 thèmes se succèdent mensuellement tout au long de l'année (cheval sauvage, bison, mammouth, ours des cavernes, rhinocéros laineux…), avec des éditions limitées publiées aux solstices, équinoxes et autres dates spéciales. Les différents visiteurs reçoivent différents collectibles selon la date de leur visite, créant une incitation naturelle à collectionner et revenir.</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">E</div>
+            <div>
+              <div class="trigger-title">Édition Explorateur</div>
+              <p class="trigger-desc">Attribuée pour la découverte de symboles géométriques cachés. Chacune porte un numéro de séquence de découverte (« Vous êtes la 237e personne à trouver ce symbole »). Les numéros plus bas sont plus rares ; les premiers visiteurs acquièrent naturellement une plus grande valeur de rareté.</p>
+            </div>
+          </li>
+          <li class="trigger-item">
+            <div class="trigger-icon">C</div>
+            <div>
+              <div class="trigger-title">Récompense Collection Complète</div>
+              <p class="trigger-desc">Rassembler toutes les éditions animales du mois en cours ou trouver les 5 symboles géométriques débloque un collectible animé de scène de grotte complète. Tous les collectibles peuvent être partagés directement sur les réseaux sociaux, générant une diffusion organique.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SENSORY DESIGN -->
+<section id="sensory">
+  <div class="container">
+    <p class="section-label">Design Sensoriel & Interactif</p>
+    <h2>Voir, Entendre, Sentir</h2>
+
+    <div class="seasons-grid" style="grid-template-columns:1fr 1fr 1fr; margin-bottom:2.5rem;">
+      <div class="season-cell">
+        <div class="season-name">Température</div>
+        <p class="season-desc">L'espace est maintenu à environ 17–18°C, frais comme une grotte sans être inconfortable. La zone de sortie VR est légèrement plus chaude, donnant au corps la sensation de « sortir de la grotte ».</p>
+      </div>
+      <div class="season-cell">
+        <div class="season-name">Odeur · Galerie</div>
+        <p class="season-desc">Carbonate de calcium humide + note minérale de craie + légère terre humide. Un diffuseur à brume froide à l'entrée crée un seuil olfactif — franchir le seuil change l'atmosphère.</p>
+      </div>
+      <div class="season-cell">
+        <div class="season-name">Odeur · Sortie</div>
+        <p class="season-desc">Pétrichor / géosmine + air extérieur froid. Un contraste total avec la galerie ; les visuels VR et l'expérience olfactive se synchronisent.</p>
+      </div>
+    </div>
+
+    <h3>Design Sonore</h3>
+
+    <p>Paysage sonore ambiant sur toute la galerie : une résonance de grotte ultra-basse fréquence (cave tone) comme fondation, plus ressentie qu'entendue. Des gouttes d'eau irrégulières espacées de 12 à 25 secondes, avec de longues queues de réverbération dont la durée suggère la profondeur spatiale. Un très léger son de courant d'air, comme si une ouverture quelque part respirait.</p>
+
+    <ul class="trigger-list">
+      <li class="trigger-item">
+        <div class="trigger-icon">F</div>
+        <div>
+          <div class="trigger-title">Allumage du Bol</div>
+          <p class="trigger-desc">Un doux crépitement de graisse brûlant pendant 1 à 2 secondes, puis un bourdonnement stable de basse fréquence se fond dans le paysage sonore ambiant et continue pendant 2 à 3 minutes avant de s'estomper à mesure que la flamme diminue.</p>
+        </div>
+      </li>
+      <li class="trigger-item">
+        <div class="trigger-icon">A</div>
+        <div>
+          <div class="trigger-title">Interaction Animale</div>
+          <p class="trigger-desc">Audio spatial directionnel avec la source sonore précisément alignée à la position de la peinture. Bison : une exhalation grave de poitrine. Cheval : un léger souffle tendu. Le son vient de la direction de la peinture, pas des haut-parleurs.</p>
+        </div>
+      </li>
+      <li class="trigger-item">
+        <div class="trigger-icon">M</div>
+        <div>
+          <div class="trigger-title">Commentaire Murmuré</div>
+          <p class="trigger-desc">Utilise un langage de syllabes inventées — rythmique et à variation tonale, structuré comme une vraie parole, mais n'appartenant à aucune langue existante. Les visiteurs ne peuvent pas comprendre le contenu littéral mais ressentent l'émotion et le ton. Le son vient de la position de la peinture ; la peinture brille brièvement après.</p>
+        </div>
+      </li>
+      <li class="trigger-item">
+        <div class="trigger-icon">S</div>
+        <div>
+          <div class="trigger-title">Découverte de Symbole Caché</div>
+          <p class="trigger-desc">Un seul coup de pierre sur pierre — non répété, sec et bref. Comme un signal de réponse antique.</p>
+        </div>
+      </li>
+    </ul>
+
+    <p>L'espace circulaire de la Scène 2 dispose d'un paysage sonore ambiant dédié dans chacune des quatre directions : Printemps — ruissellement d'eau et chant d'oiseaux lointains ; Été — chœur d'insectes dense et basse fréquence ; Automne — vent intermittent et froissement de feuilles sèches ; Hiver — quasi-silence, avec l'occasional son lointain de glace qui se craque. À mesure que les visiteurs se déplacent dans l'espace circulaire, les sons se mélangent naturellement selon la position. Les figures centrales occupent une zone de sons de feu continus, à peine perceptibles, et d'un murmure sourd inintelligible.</p>
+
+    <div class="section-divider"></div>
+
+    <h3>Langage Visuel Interactif : Animation de Traçage de Contour</h3>
+
+    <p>Lorsqu'un animal de peinture rupestre est activé, une <strong>animation de traçage de contour</strong> unifiée est jouée : à partir de la tête du silhouette de l'animal, une ligne lumineuse parcourt le contour sur 2 à 3 secondes, couvrant tout le corps comme si quelqu'un redessinait la ligne avec de la lumière. Après l'achèvement, le contour entier effectue une impulsion de braise (une légère montée et descente de luminosité), puis s'estompe lentement en 2 secondes, revenant à l'état original de la peinture.</p>
+
+    <p>Cette animation porte deux significations : d'abord, « cette ligne a été dessinée exactement de cette façon à l'origine », et ensuite, « la lumière de votre lampe l'a ramenée à la vie ». Le déclenchement du cheval à six pattes est la version la plus complète — ses six pattes sont tracées en séquence correspondant au rythme de chaque foulée, et le sens du mouvement émerge naturellement au cours du processus de traçage.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-value">2–3s</span>
+        <span class="stat-label">durée du traçage</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">2s</span>
+        <span class="stat-label">estompage des braises</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">2–3min</span>
+        <span class="stat-label">durée de combustion</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">Réinit.</span>
+        <span class="stat-label">bols réinitialisés par groupe</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVENUE -->
+<section id="revenue">
+  <div class="container">
+    <p class="section-label">Modèle de Revenus</p>
+    <h2>Billetterie en Tête, Multi-Flux</h2>
+
+    <p>Le projet fonctionne selon un modèle de flux continu sans créneaux horaires fixes. Des groupes de 6 entrent toutes les 5 minutes ; la capacité maximale sur site est de 18 visiteurs (environ 6 par scène). Avec une expérience de ~30 minutes et un groupe remplaçant le suivant, le débit en régime permanent est d'environ 36 visiteurs/heure.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Indicateur</th>
+            <th>Valeur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Prix du billet</td><td>¥120–180 / personne</td></tr>
+          <tr><td>Taille du groupe</td><td>6 personnes</td></tr>
+          <tr><td>Max sur site</td><td>18 personnes (3 groupes décalés)</td></tr>
+          <tr><td>Débit en régime permanent</td><td>36 personnes/heure</td></tr>
+          <tr><td>Heures d'exploitation quotidiennes</td><td>12 heures (10h00–22h00)</td></tr>
+          <tr><td>Jours d'exploitation annuels</td><td>280 jours</td></tr>
+          <tr><td>Visiteurs quotidiens (taux d'utilisation 70%)</td><td>~300 personnes</td></tr>
+          <tr><td>Visiteurs annuels</td><td>~84 000 personnes</td></tr>
+          <tr class="table-highlight"><td>Revenus billetterie annuels (moy. ¥150)</td><td>~¥12,6M</td></tr>
+          <tr><td>Estimation conservatrice du plan d'affaires</td><td>¥8–10M / an</td></tr>
+          <tr><td>Coûts d'exploitation annuels</td><td>À définir selon la structure de partenariat</td></tr>
+          <tr class="table-highlight"><td>Bénéfice net annuel</td><td>Calculé après définition de la structure des coûts</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>Pérennité des Revenus</h3>
+
+    <p>Des revenus de billetterie soutenus nécessitent un flux continu de visiteurs. Plusieurs mécanismes soutiennent cela :</p>
+
+    <p><strong>Cycles de mise à jour du contenu.</strong> L'architecture du système prend en charge le remplacement des modules de contenu. Les segments de sites d'art rupestre peuvent être tournés trimestriellement ; le contenu saisonnier de l'amphithéâtre peut recevoir des éditions spéciales pour les fêtes. Les visiteurs de la même ville ont une raison de revenir tous les six mois.</p>
+
+    <div class="revenue-grid">
+      <div class="revenue-item">
+        <div class="revenue-tag">Billetterie</div>
+        <p class="revenue-desc">Entrées individuelles + réservations de groupes</p>
+        <div class="revenue-amount">Principal</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Boutique</div>
+        <p class="revenue-desc">Boutique de sortie : bols en pierre répliques, impressions d'art rupestre, ornements lampe à huile</p>
+        <div class="revenue-amount">¥30–50 / visiteur</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Collectibles</div>
+        <p class="revenue-desc">Récompenses de découverte de symboles + spéciaux collection complète, via mini-programme WeChat</p>
+        <div class="revenue-amount">Tarification à la demande</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Location Salle</div>
+        <p class="revenue-desc">Team-building entreprise, événements de marque, visites éducatives scolaires</p>
+        <div class="revenue-amount">¥20K–50K / événement</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Licence Contenu</div>
+        <p class="revenue-desc">Droits d'utilisation du système accordés à d'autres sites</p>
+        <div class="revenue-amount">¥300K–800K / déploiement</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Subventions</div>
+        <p class="revenue-desc">Soutien à l'industrie culturelle, économie nocturne, programmes éducatifs</p>
+        <div class="revenue-amount">Selon politique locale</div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-tag">Partenariats</div>
+        <p class="revenue-desc">Co-marketing avec des marques culturelles liées aux sites patrimoniaux</p>
+        <div class="revenue-amount">Base projet</div>
+      </div>
+    </div>
+
+    <p>La location de salle est particulièrement précieuse en basse saison — les événements d'entreprise et les visites scolaires sont flexibles en termes de temps et peuvent combler efficacement les créneaux hors vacances.</p>
+
+    <p><strong>Boutique et collectibles numériques.</strong> Une zone de vente à la sortie propose des produits directement liés au contenu de l'expérience : bols en pierre répliques (avec LED vacillante, à emporter), impressions d'art rupestre, ornements lampe à huile. Les visiteurs qui découvrent des symboles cachés reçoivent un code de réduction, convertissant le comportement exploratoire en motivation d'achat. Les collectibles numériques sont distribués via le mini-programme WeChat sans barrière technique, et sont partageables — les visiteurs qui découvrent du contenu caché ont tendance à le partager sur les réseaux sociaux, générant une portée organique.</p>
+  </div>
+</section>
+
+<!-- REAL ESTATE -->
+<section id="realestate">
+  <div class="container">
+    <p class="section-label">Intégration Immobilière</p>
+    <h2>Activer les Espaces Silencieux</h2>
+
+    <h3>Utilisation des Espaces Vacants</h3>
+    <p>L'immobilier commercial contient une catégorie persistante d'espaces difficiles à louer : niveaux sous-sol, extrémités de galeries, emplacements en angle dans les centres commerciaux de grande superficie. Ce que ces espaces ont en commun — fermés, sombres, loin de la circulation principale — est précisément ce dont les expériences immersives ont besoin.</p>
+    <p>Le Théâtre des Cavernes ne nécessite qu'environ 150 à 200 mètres carrés, et peut être intégré dans de tels emplacements sans perturber la mise en page commerciale existante. Le coût d'installation matérielle par site est d'environ ¥100K–150K ; du point de vue du recouvrement des revenus de billetterie, l'investissement matériel peut être récupéré en environ 2 à 3 mois, après quoi le site génère un revenu net continu.</p>
+    <p>Du point de vue du propriétaire, cela transforme une superficie à revenus nuls ou faibles en une zone de production quotidienne stable, tout en amenant du trafic piétonnier à l'ensemble de la propriété.</p>
+
+    <h3>Valeur du Trafic au Lancement du Projet</h3>
+    <p>Nouvelles ouvertures commerciales, lancements de centres de vente pour des développements résidentiels, phases de recrutement pour des projets de tourisme culturel — ces moments nécessitent tous une génération rapide de visites et de buzz. L'environnement visuel du Théâtre des Cavernes (espace sombre, lumière de torche, peintures murales d'animaux) a une forte aptitude aux réseaux sociaux, ce qui le rend adapté comme expérience à durée limitée pour générer la chaleur initiale. L'installation peut être déployée en 2 à 3 semaines et relocalisée après la fin de l'événement.</p>
+
+    <h3>Impact des Équipements Culturels sur la Valeur des Actifs</h3>
+    <p>Les complexes commerciaux avec une programmation culturelle stable affichent des primes de loyer et de vente d'environ <strong>15 à 25 %</strong> dans plusieurs études de cas de marché. Cet effet est particulièrement prononcé pour les projets résidentiels haut de gamme et commerciaux de gamme moyenne à haute. Un espace culturel immersif en exploitation continue peut servir d'ancre culturelle pour le positionnement de l'ensemble du développement.</p>
+
+    <h3>Modèles de Partenariat</h3>
+    <div class="coop-grid">
+      <div class="coop-card">
+        <div class="coop-mode">Partenariat de Site</div>
+        <p class="coop-role">L'investisseur fournit l'espace vacant ; nous installons et opérons ; les revenus de billetterie sont partagés en pourcentage</p>
+      </div>
+      <div class="coop-card">
+        <div class="coop-mode">Investissement en Capital</div>
+        <p class="coop-role">L'investisseur finance le matériel et le contenu ; nous gérons la technologie et les opérations ; partage des bénéfices</p>
+      </div>
+      <div class="coop-card">
+        <div class="coop-mode">Achat Clé en Main</div>
+        <p class="coop-role">L'investisseur achète l'installation complète ; nous livrons et assurons la maintenance ; frais de projet + maintenance annuelle</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPLICABILITY -->
+<section id="replicability">
+  <div class="container">
+    <p class="section-label">Réplicabilité</p>
+    <h2>Une Fondation, des Thèmes Infinis</h2>
+
+    <p>Le système fonctionne sur deux niveaux : <strong>infrastructure</strong> (matériel, positionnement, cadre de rendu) et <strong>contenu</strong> (peintures murales, animaux, conception de scènes).</p>
+    <p>L'infrastructure est réutilisée à 100% entre les déploiements ; seul le contenu est nouvellement produit à chaque fois. Les coûts de contenu représentent environ 25 à 35% du coût total par déploiement.</p>
+    <p>À partir du deuxième déploiement, le matériel n'a pas besoin d'être racheté, et l'expérience accumulée d'installation et de calibration raccourcit significativement les délais de déploiement. À mesure que les projets s'accumulent, les coûts marginaux continuent de baisser, et les marges bénéficiaires à la même échelle de revenus s'améliorent progressivement.</p>
+    <p>Le système de accessoires principal (lampe à huile + positionnement UWB + réponse de projection) ne dépend pas du thème de la grotte — il peut être transposé à d'autres contextes narratifs. Exemples : dans une expérience de théâtre d'ombres, les visiteurs tiennent une source lumineuse qui détermine quelle marionnette est éclairée et sous quel angle de projection ; ou pour une visite nocturne de jardin, la lampe détermine comment les plantes, l'architecture et l'eau répondent. Le mécanisme reste le même ; le contenu et la forme sont redessinés pour chaque contexte.</p>
+
+    <h4>Thèmes d'Extension</h4>
+    <div class="theme-grid">
+      <div class="theme-cell">
+        <div class="theme-name">Fresques de Dunhuang</div>
+        <div class="theme-target">Institutions patrimoniales chinoises, tourisme culturel du nord-ouest</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Théâtre d'Ombres</div>
+        <div class="theme-target">Quartiers touristiques culturels, sites d'artisanat traditionnel</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Océan & Nature</div>
+        <div class="theme-target">Musées d'histoire naturelle, espaces commerciaux côtiers</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Histoire Urbaine</div>
+        <div class="theme-target">Centres culturels urbains, quartiers historiques</div>
+      </div>
+      <div class="theme-cell">
+        <div class="theme-name">Marque Personnalisée</div>
+        <div class="theme-target">Centres de vente résidentiel de luxe, espaces flagship de marque</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACADEMIC -->
+<section id="academic">
+  <div class="container">
+    <p class="section-label">Partenariat Académique & Échanges Franco-Chinois</p>
+    <h2>Relier Deux Mondes</h2>
+
+    <p>Des sites tels que Lascaux, Chauvet et Rouffignac sont des biens patrimoniaux nationaux gérés par le Ministère de la Culture français, et sont également des sujets de recherche académique continue. Des institutions telles que l'Université de Bordeaux et le CNRS (Centre National de la Recherche Scientifique) ont une expertise de longue date en art préhistorique.</p>
+
+    <p>Nous prévoyons de nous engager avec le système universitaire français, en invitant des spécialistes pertinents à participer au projet en tant que conseillers ou partenaires. La valeur pratique de la collaboration académique est triple : une caution institutionnelle professionnelle pour l'exactitude du contenu ; une accréditation crédible lors de la recherche d'autorisation ou d'accréditation auprès d'institutions culturelles françaises ; et l'accès aux réseaux des universités et instituts de recherche français qui peuvent soutenir la portée du projet dans les cercles culturels européens.</p>
+
+    <p>Au niveau du contenu, ce projet présente une intersection culturelle sino-française naturelle : le patrimoine préhistorique français en son cœur, re-présenté par la technologie numérique par une équipe chinoise, opérant dans des villes chinoises. Cette structure elle-même peut servir d'exemple concret d'échange culturel sino-français, facilitant le dialogue au sein des institutions culturelles et des canaux officiels des deux pays.</p>
+
+    <p>À long terme, après avoir complété la validation du prototype sur le marché chinois, nous visons à amener le système et le contenu dans des sites en France, créant un flux bidirectionnel : les audiences chinoises vivent le monde préhistorique français ; les audiences françaises vivent l'interprétation contemporaine de cette même histoire par une équipe chinoise.</p>
+
+    <div class="mystery-quote">
+      Ce cadre de collaboration ne se limite pas au projet de peintures rupestres. Les autres projets d'invitro impliquant du contenu culturel ou des opérations dans les deux pays peuvent être intégrés dans la même structure de partenariat académique et d'échange culturel, formant une relation continue plutôt qu'un engagement ponctuel.
+    </div>
+  </div>
+</section>
+
+<!-- TIMING -->
+<section id="timing">
+  <div class="container">
+    <p class="section-label">Fenêtre d'Opportunité</p>
+    <h2>La Fenêtre d'Entrée S'ouvre</h2>
+
+    <p>L'IA réduit le coût de production du contenu numérique. Animation, conception sonore, création de scènes — un travail qui nécessitait auparavant de grandes équipes peut maintenant être accompli avec des outils d'IA en une fraction du temps, à moins de la moitié du coût de production d'il y a trois ans.</p>
+    <p>Pour nous, c'est favorable : des seuils de production de contenu plus bas signifient des coûts décroissants par déploiement, rendant le modèle commercial de plus en plus viable.</p>
+    <p>Dans le même temps, la prolifération de l'IA rend le contenu à l'écran de plus en plus riche et de moins en moins cher. Les audiences peuvent accéder à de grands volumes de contenu visuel de haute qualité à domicile, ce qui rend paradoxalement les expériences physiques « incontournables » plus rares et plus précieuses. L'expérience du Théâtre des Cavernes dépend d'un vrai espace physique, de vrais accessoires physiques et d'une vraie présence corporelle — aucun contenu numérique ne peut les remplacer.</p>
+    <p>C'est maintenant un moment particulièrement propice pour entrer dans cette direction : les outils d'IA sont suffisamment matures pour nous aider à réduire les coûts de production, mais la concurrence à grande échelle dans cette catégorie d'expérience physique n'a pas encore émergé.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <p class="section-label">Équipe</p>
+    <h2>Créatif & Académique</h2>
+
+    <div class="team-grid">
+      <div class="team-item">
+        <div class="team-role">Production de Contenu</div>
+        <div>
+          <div class="team-name">In Vitro</div>
+          <p class="team-desc">Responsable du contenu numérique, des systèmes interactifs et de la conception globale de l'expérience, avec plusieurs projets d'installation immersive déployés.</p>
+        </div>
+      </div>
+      <div class="team-item">
+        <div class="team-role">Liaison Académique</div>
+        <div>
+          <div class="team-name">Li Bing</div>
+          <p class="team-desc">Chercheur postdoctoral en sciences cognitives et psychologie à l'Université de Lille ; responsable de l'engagement avec les universités et instituts de recherche français.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTMENT -->
+<section id="investment">
+  <div class="container">
+    <p class="section-label">Investissement</p>
+    <h2>Deux Phases</h2>
+
+    <div class="invest-phase">
+      <div class="invest-phase-header">
+        <div class="invest-phase-title">Phase 1 : Validation du Prototype (3 mois)</div>
+        <div class="invest-phase-amount">¥ 300 000</div>
+      </div>
+      <div class="invest-phase-body">
+        <p>L'objectif est de réaliser un prototype fonctionnel démontrable aux institutions partenaires potentielles, validant la technologie de base et la logique de l'expérience.</p>
+        <div class="note">Les chiffres suivants sont des estimations préliminaires à titre indicatif seulement.</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Poste</th><th>Montant</th></tr></thead>
+            <tbody>
+              <tr><td>Matériel (UWB, projecteurs, accessoires)</td><td>¥80 000</td></tr>
+              <tr><td>Production de contenu (animation rupestre, son, vidéo VR)</td><td>¥120 000</td></tr>
+              <tr><td>Site & installation</td><td>¥50 000</td></tr>
+              <tr><td>Imprévus & calibration</td><td>¥50 000</td></tr>
+              <tr class="table-highlight"><td>Total</td><td>¥300 000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Livrables :</strong> Un prototype d'expérience entièrement opérationnel + vidéo de démonstration + premier contact avec les institutions partenaires du premier tour.</p>
+      </div>
+    </div>
+
+    <div class="invest-phase">
+      <div class="invest-phase-header">
+        <div class="invest-phase-title">Phase 2 : Premier Déploiement Commercial</div>
+        <div class="invest-phase-amount">¥ 400K–800K</div>
+      </div>
+      <div class="invest-phase-body">
+        <p>Périmètre déterminé après validation du prototype et confirmation du premier partenariat de site. Investissement supplémentaire estimé de ¥400K–800K (incluant la fabrication de répliques et l'aménagement du site), suivi d'opérations de billetterie publique.</p>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>Risques Principaux</h3>
+    <div class="risk-list">
+      <div class="risk-item">
+        <div class="risk-title">Variabilité du Coût de Fabrication des Répliques</div>
+        <p class="risk-desc">La fourchette de prix pour les répliques de parois en fibre de verre est large, selon la précision et le fabricant. Une version simplifiée peut être utilisée en phase prototype pour contrôler les coûts ; le fournisseur et la tarification seront confirmés avant le déploiement commercial.</p>
+      </div>
+      <div class="risk-item">
+        <div class="risk-title">Incertitude des Prévisions de Volume de Visiteurs</div>
+        <p class="risk-desc">Les projections de revenus de billetterie supposent des taux d'utilisation stables. Les opérations réelles en période initiale peuvent inclure une phase de montée en puissance avec des revenus inférieurs à l'état stable pendant les deux premiers mois. Il est recommandé de tester simultanément la tarification et les taux de conversion des réservations pendant la phase de validation du prototype.</p>
+      </div>
+      <div class="risk-item">
+        <div class="risk-title">Délai de Négociation du Partenariat de Site</div>
+        <p class="risk-desc">Les négociations avec les musées ou les propriétés commerciales prennent généralement 2 à 4 mois. Les partenariats d'espaces commerciaux tendent à avancer plus vite et peuvent être priorisés comme cible pour le premier déploiement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPENDIX -->
+<section id="appendix">
+  <div class="container">
+    <p class="section-label">Annexes</p>
+    <h2>Spécifications Techniques & Budget</h2>
+
+    <h3>Annexe A : Architecture Technique</h3>
+
+    <h4>Architecture du Système Central</h4>
+    <div class="code-block">[Ancres UWB × 6–8, montées au plafond]
+        ↓ coordonnées en temps réel (UDP/OSC)
+[PC Principal : Windows + RTX 4080]
+    Unity — logique comportementale + rendu éclairage projection
+        ↓ KlakSpout (transfert direct VRAM GPU)
+    Resolume Arena — sortie de fusion multi-projecteurs
+        ↓ DisplayPort × 4–6
+    [Projecteurs muraux]
+
+[PC Secondaire : Mac Mini]
+    QLab — audio spatial + séquence d'empreintes + éclairage DMX
+        ↓ communication bidirectionnelle OSC avec PC principal
+
+[Viewers VR]
+    Quest 3 autonome, Skybox VR lecture vidéo stéréoscopique 360°</div>
+
+    <h4>Accessoire Lampe à Huile</h4>
+    <p>Extérieur inspiré des formes de lampes à graisse paléolithiques, coque imprimée en 3D en résine, contenant :</p>
+    <ul class="spec-list">
+      <li>Module de positionnement <span>ESP32 + DW1000 UWB, précision ±15–30cm</span></li>
+      <li>Source lumineuse <span>LED blanc chaud 2700K, légère scintillation irrégulière</span></li>
+      <li>Batterie <span>5000mAh, ~20 heures d'autonomie</span></li>
+      <li>Coût unitaire <span>~¥650 ; première série de 12–15 unités</span></li>
+    </ul>
+
+    <h4>Principe d'Éclairage par Projection</h4>
+    <p>Les surfaces de répliques ont un véritable relief physique. Le système construit un modèle 3D correspondant pour chaque segment de réplique, effectue le rendu via une caméra de projecteur virtuel dans Unity, et sort une image qui correspond géométriquement à la surface physique lors de la projection. La position de la lampe sert de source ponctuelle virtuelle, calculant en temps réel la direction de l'éclairage sur la surface rocheuse — les zones surélevées captent la lumière, les zones en retrait projettent des ombres, et l'effet change à mesure que l'angle de la lampe varie.</p>
+
+    <div class="section-divider"></div>
+
+    <h3>Annexe B : Détail du Budget</h3>
+    <div class="note">Les chiffres ci-dessous sont des estimations préliminaires de planification à titre indicatif seulement. Les montants réels sont soumis aux devis des fournisseurs, aux conditions du site et à la configuration spécifique, et seront recalculés avant le déploiement commercial.</div>
+
+    <h4>Phase Prototype (segment de démonstration 6m, 4 lampes à huile)</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Catégorie</th><th>Poste</th><th>Sous-total</th></tr></thead>
+        <tbody>
+          <tr><td>Positionnement UWB</td><td>Ancres ×4 + Tags ×4 (DW1000)</td><td>¥6 000</td></tr>
+          <tr><td>Projecteurs</td><td>Projecteurs d'ingénierie à focale standard ×2</td><td>¥16 000–24 000</td></tr>
+          <tr><td>PC de Contrôle</td><td>Hôte de rendu Windows (niveau RTX 4070)</td><td>¥12 000</td></tr>
+          <tr><td>Accessoires Lampe</td><td>Coque + chargement + LED + assemblage ×4</td><td>¥5 000</td></tr>
+          <tr><td>Montage Projection</td><td>Supports + câblage</td><td>¥4 000</td></tr>
+          <tr><td>Reconnaissance Empreinte</td><td>Caméra IR + support</td><td>¥6 000</td></tr>
+          <tr><td>Contrôle Éclairage</td><td>Contrôleur DMX Enttec</td><td>¥5 000</td></tr>
+          <tr><td>Système Olfactif</td><td>Diffuseur + formules olfactives</td><td>¥4 000</td></tr>
+          <tr><td>Consommables & Pièces</td><td>—</td><td>¥3 000</td></tr>
+          <tr class="table-highlight"><td>Sous-total Matériel</td><td></td><td>¥61 000–69 000</td></tr>
+          <tr><td>Resolume Arena</td><td>Logiciel de projection</td><td>¥6 500</td></tr>
+          <tr><td>QLab</td><td>Version gratuite pour la phase prototype</td><td>¥0</td></tr>
+          <tr class="table-highlight"><td>Total Prototype</td><td></td><td>~¥68 000–76 000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Installation Complète (galerie 18m + amphithéâtre, 12 lampes à huile)</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Catégorie</th><th>Sous-total</th></tr></thead>
+        <tbody>
+          <tr><td>Système de Positionnement UWB (Ancres ×8 + Tags ×12)</td><td>¥12 000</td></tr>
+          <tr><td>Projecteurs (Galerie ×3 + Amphithéâtre ×4)</td><td>¥56 000–84 000</td></tr>
+          <tr><td>PC de Contrôle (Hôte de rendu niveau RTX 4080)</td><td>¥18 000</td></tr>
+          <tr><td>Accessoires Lampe ×12</td><td>¥15 000</td></tr>
+          <tr><td>Répliques de Grotte (mousse CNC + revêtement dur, ~20㎡)</td><td>¥12 000–20 000</td></tr>
+          <tr><td>Écran gaze amphithéâtre + installation</td><td>¥5 000–12 000</td></tr>
+          <tr><td>Supports de projection + câblage</td><td>¥8 000</td></tr>
+          <tr><td>Viewers VR (Quest 3 ×6 + boîtier + suspension)</td><td>¥30 000</td></tr>
+          <tr><td>Caméra de reconnaissance d'empreinte</td><td>¥6 000</td></tr>
+          <tr><td>Système olfactif (entrée + sortie)</td><td>¥8 000</td></tr>
+          <tr><td>Équipement audio (haut-parleurs audio spatial + amplificateur)</td><td>¥15 000–25 000</td></tr>
+          <tr><td>Contrôle d'éclairage DMX</td><td>¥5 000</td></tr>
+          <tr><td>Consommables & pièces de rechange</td><td>¥5 000</td></tr>
+          <tr class="table-highlight"><td>Total Matériel</td><td>~¥195 000–248 000</td></tr>
+          <tr><td>Resolume Arena</td><td>¥6 500</td></tr>
+          <tr><td>QLab Vidéo + Audio</td><td>¥5 500 / an</td></tr>
+          <tr class="table-highlight"><td>Total Installation Complète (Année 1)</td><td>~¥207 000–260 000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Théâtre des Cavernes · 洞穴剧场</div>
+  <p class="footer-meta">In Vitro · Mars 2026 · Confidentiel</p>
+</footer>
+
+
+<!-- TORCH OVERLAY -->
+<div id="torchOverlay"></div>
+<div id="fireCursor">
+  <div class="fire-outer"></div>
+  <div class="fire-mid"></div>
+  <div class="fire-core"></div>
+</div>
+
+<script>
+(function() {
+  const overlay  = document.getElementById('torchOverlay');
+  const cursor   = document.getElementById('fireCursor');
+
+  let targetX = window.innerWidth  / 2;
+  let targetY = window.innerHeight / 2;
+  let curX    = targetX;
+  let curY    = targetY;
+  let active  = false;
+
+  document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    if (!active) {
+      active = true;
+      overlay.style.opacity = '1';
+    }
+  });
+
+  document.addEventListener('mouseleave', () => {
+    active = false;
+    overlay.style.opacity = '0';
+  });
+
+  function updateShadows(mx, my) {
+    const els = document.querySelectorAll('h1, h2, h3, .hero-title, .hero-subtitle, .mystery-quote');
+    els.forEach(el => {
+      const r    = el.getBoundingClientRect();
+      const cx   = r.left + r.width  / 2;
+      const cy   = r.top  + r.height / 2;
+      const dx   = cx - mx;
+      const dy   = cy - my;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      const maxDist   = 700;
+      const intensity = Math.max(0, 1 - dist / maxDist);
+      const scale     = 5 * intensity;
+      const sx        = (dx / dist) * scale;
+      const sy        = (dy / dist) * scale;
+      const blur      = 10 * intensity;
+      const alpha     = 0.75 * intensity;
+
+      el.style.textShadow = intensity > 0.02
+        ? `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(1)}px rgba(180, 90, 0, ${alpha.toFixed(2)})`
+        : '';
+    });
+  }
+
+  function tick() {
+    curX += (targetX - curX) * 0.10;
+    curY += (targetY - curY) * 0.10;
+
+    cursor.style.left = curX + 'px';
+    cursor.style.top  = curY + 'px';
+
+    const flicker = 1 + (Math.random() - 0.5) * 0.05;
+    const r = Math.round(480 * flicker);
+    overlay.style.background =
+      `radial-gradient(ellipse ${r}px ${r}px at ${curX.toFixed(0)}px ${curY.toFixed(0)}px,
+        rgba(255, 155, 40, 0.13) 0%,
+        rgba(255, 120, 20, 0.06) 30%,
+        rgba(220, 90,  10, 0.02) 60%,
+        transparent 100%)`;
+
+    updateShadows(curX, curY);
+    requestAnimationFrame(tick);
+  }
+
+  tick();
+})();
+</script>
+</body>
+</html>
