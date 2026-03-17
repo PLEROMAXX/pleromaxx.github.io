@@ -1629,6 +1629,32 @@
     overlay.style.opacity = '0';
   });
 
+  // Touch tracking
+  document.addEventListener('touchstart', (e) => {
+    const t = e.touches[0];
+    targetX = t.clientX;
+    targetY = t.clientY;
+    curX = t.clientX;
+    curY = t.clientY;
+    active = true;
+    overlay.style.opacity = '1';
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    targetX = t.clientX;
+    targetY = t.clientY;
+    if (!active) {
+      active = true;
+      overlay.style.opacity = '1';
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    active = false;
+    overlay.style.opacity = '0';
+  });
+
   // Text shadow targets: headings + section labels
   function updateShadows(mx, my) {
     const els = document.querySelectorAll('h1, h2, h3, .hero-title, .hero-subtitle, .mystery-quote');

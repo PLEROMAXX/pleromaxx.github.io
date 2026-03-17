@@ -999,7 +999,7 @@
             <div class="trigger-icon">①</div>
             <div>
               <div class="trigger-title">Commentaire Murmuré</div>
-              <p class="trigger-desc">Lorsqu'une lampe s'attarde devant une section de peinture rupestre pendant plus de 8 secondes, un audio spatial est déclenché depuis la direction de la peinture — pas une diffusion, mais un murmure proche décrivant un détail spécifique de cette peinture. Le langage utilise des syllabes inventées avec une variation rythmique et tonale ressemblant à la structure d'une vraie parole, mais n'appartenant à aucune langue existante. Les auditeurs ne peuvent pas comprendre le contenu littéral mais peuvent ressentir l'émotion et l'intention. Après la fin du son, la zone de la peinture brille brièvement d'un reflet façon braise, puis s'estompe.</p>
+              <p class="trigger-desc">Lorsqu'une lampe s'attarde devant une section de peinture rupestre pendant plus de 8 secondes, un murmure spatial est déclenché depuis la direction de la peinture, décrivant un détail spécifique de cette peinture. Le langage utilise des syllabes inventées avec une variation rythmique et tonale ressemblant à la structure d'une vraie parole, mais n'appartenant à aucune langue existante. Les auditeurs ne peuvent pas comprendre le contenu littéral mais peuvent ressentir l'émotion et l'intention. Après la fin du son, la zone de la peinture brille brièvement d'un reflet façon braise, puis s'estompe.</p>
             </div>
           </li>
           <li class="trigger-item">
@@ -1623,6 +1623,32 @@
   });
 
   document.addEventListener('mouseleave', () => {
+    active = false;
+    overlay.style.opacity = '0';
+  });
+
+  // Touch tracking
+  document.addEventListener('touchstart', (e) => {
+    const t = e.touches[0];
+    targetX = t.clientX;
+    targetY = t.clientY;
+    curX = t.clientX;
+    curY = t.clientY;
+    active = true;
+    overlay.style.opacity = '1';
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    targetX = t.clientX;
+    targetY = t.clientY;
+    if (!active) {
+      active = true;
+      overlay.style.opacity = '1';
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
     active = false;
     overlay.style.opacity = '0';
   });
