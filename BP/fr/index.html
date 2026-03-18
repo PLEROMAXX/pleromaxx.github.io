@@ -35,7 +35,10 @@
     font-size: 16px;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
+    cursor: none;
   }
+
+  * { cursor: none !important; }
 
   /* ── NAV ── */
   nav {
@@ -131,7 +134,7 @@
   .hero-eyebrow {
     font-size: 0.72rem;
     letter-spacing: 0.22em;
-    color: var(--accent-light);
+    color: #fff;
     text-transform: uppercase;
     margin-bottom: 2rem;
     text-shadow: 0 0 20px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8);
@@ -1606,14 +1609,27 @@
 <!-- HERO WEBGL NORMAL-MAP LIGHTING -->
 <script>
 (function() {
+  // ── WEBGL LIGHTING PARAMS ────────────────────────────────────────
   const P = {
-    intensity:2.1, lightZ:0.45, atten:5.95,
-    shadowK:21, shadowH:3.0, steps:32,
-    dispScale:0.95,
-    flicker:0.06, smooth:0.1,
-    vigX:0.5, vigY:0.5,
-    lr:1.0, lg:0.765, lb:0.502
+    intensity:  1.5,   // overall brightness multiplier
+    lightZ:     0.45,  // light height above surface (0=grazing, 1=overhead)
+    atten:      5.95,  // attenuation falloff — higher = smaller lit area
+    // ── raymarching shadows ──
+    shadowK:    15,    // shadow hardness — higher = sharper contact shadows
+    shadowH:    4.0,   // max shadow ray height — controls shadow search range
+    steps:      32,    // raymarching steps — higher = better quality, slower
+    // ── displacement ──
+    dispScale:  0.95,  // displacement height scale — higher = deeper bumps
+    // ── flicker & motion ──
+    flicker:    0.06,  // flicker amplitude (0 = none)
+    smooth:     0.05,   // light follow lag (0=instant, 1=no movement)
+    // ── vignette ──
+    vigX:       0.5,   // horizontal vignette start (0–1 from center)
+    vigY:       0.5,   // vertical vignette start (0–1 from center)
+    // ── light color (rgb 0–1) ──
+    lr: 1.0, lg: 0.765, lb: 0.502,  // warm amber: rgb(255, 195, 128)
   };
+  // ─────────────────────────────────────────────────────────────────
 
   const canvas = document.getElementById('heroCanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -1656,7 +1672,10 @@
   loadT(tD,BASE+'BaseColor.jpg'); loadT(tN,BASE+'Normal.jpg'); loadT(tDp,BASE+'Displacement.jpg');
   function resize(){const h=canvas.parentElement;canvas.width=h.offsetWidth;canvas.height=h.offsetHeight;gl.viewport(0,0,canvas.width,canvas.height);}
   window.addEventListener('resize',resize);resize();
-  document.addEventListener('mousemove',function(e){const r=canvas.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height;});
+  function updateLight(cx,cy){const r=canvas.getBoundingClientRect();tx=(cx-r.left)/r.width;ty=(cy-r.top)/r.height;}
+  document.addEventListener('mousemove',function(e){updateLight(e.clientX,e.clientY);});
+  document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);lx=tx;ly=ty;},{passive:true});
+  document.addEventListener('touchmove',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
   function render(){
     requestAnimationFrame(render);
     lx+=(tx-lx)*P.smooth; ly+=(ty-ly)*P.smooth;
@@ -1689,6 +1708,18 @@
 
 <script>
 (function() {
+  // ── TEXT SHADOW PARAMS ─────────────────────────────────────────
+  const S = {
+    maxDist:  600,   // fire influence radius (px) — larger = affects more of the page
+    scale:    28,    // max shadow offset (px) — how far shadow is cast
+    blurMin:  2,     // blur at far distance (px)
+    blurMax:  22,    // blur at close distance (px)
+    alpha:    0.90,  // shadow darkness (0–1)
+    glowBlur: 60,    // warm glow spread (px) — orange bloom behind text
+    glowA:    0.85,  // warm glow opacity (0–1)
+  };
+  // ─────────────────────────────────────────────────────────────────
+
   const overlay  = document.getElementById('torchOverlay');
   const cursor   = document.getElementById('fireCursor');
 
@@ -1717,6 +1748,8 @@
     const t = e.touches[0];
     targetX = t.clientX;
     targetY = t.clientY;
+    curX = targetX;   // snap — no lerp jump on new touch
+    curY = targetY;
     active = true;
     overlay.style.opacity = '1';
   }, { passive: true });
@@ -1737,7 +1770,7 @@
   });
 
   function updateShadows(mx, my) {
-    const els = document.querySelectorAll('h1, h2, h3, .hero-title, .hero-subtitle, .mystery-quote');
+    const els = document.querySelectorAll('.hero-title, .hero-subtitle, .hero-eyebrow, .hero-meta, .mystery-quote');
     els.forEach(el => {
       const r    = el.getBoundingClientRect();
       const cx   = r.left + r.width  / 2;
@@ -1746,17 +1779,20 @@
       const dy   = cy - my;
       const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
-      const maxDist   = 700;
-      const intensity = Math.max(0, 1 - dist / maxDist);
-      const scale     = 5 * intensity;
-      const sx        = (dx / dist) * scale;
-      const sy        = (dy / dist) * scale;
-      const blur      = 10 * intensity;
-      const alpha     = 0.75 * intensity;
+      const intensity = Math.max(0, 1 - dist / S.maxDist);
+      const sx = (dx / dist) * S.scale * intensity;
+      const sy = (dy / dist) * S.scale * intensity;
+      const baseShadow = '0 2px 24px rgba(0,0,0,0.95), 0 0 8px rgba(0,0,0,0.9)';
 
-      el.style.textShadow = intensity > 0.02
-        ? `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(1)}px rgba(180, 90, 0, ${alpha.toFixed(2)})`
-        : '';
+      if (intensity > 0.02) {
+        const blur = S.blurMin + (S.blurMax - S.blurMin) * intensity;
+        el.style.textShadow =
+          `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(0)}px rgba(0,0,0,${(S.alpha * intensity).toFixed(2)}),` +
+          `0 0 ${(S.glowBlur * intensity).toFixed(0)}px rgba(200,100,0,${(S.glowA * intensity).toFixed(2)}),` +
+          baseShadow;
+      } else {
+        el.style.textShadow = baseShadow;
+      }
     });
   }
 

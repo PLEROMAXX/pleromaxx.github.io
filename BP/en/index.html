@@ -35,7 +35,10 @@
     font-size: 16px;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
+    cursor: none;
   }
+
+  * { cursor: none !important; }
 
   /* ── NAV ── */
   nav {
@@ -131,7 +134,7 @@
   .hero-eyebrow {
     font-size: 0.72rem;
     letter-spacing: 0.22em;
-    color: var(--accent-light);
+    color: #fff;
     text-transform: uppercase;
     margin-bottom: 2rem;
     text-shadow: 0 0 20px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8);
@@ -1614,8 +1617,8 @@
     uniform sampler2D uDiffuse,uNormal,uDisplace; uniform vec2 uLight,uRes; uniform float uTime; varying vec2 vUv;
     float getH(vec2 u){return texture2D(uDisplace,u).r;}
     float hShadow(vec2 p,float h0,vec2 lp){vec2 toL=lp-p; float res=1.0;
-      for(int i=1;i<=32;i++){float t=float(i)/32.0; vec2 sP=p+toL*t; float rayH=h0+t*(3.0-h0);
-        res=min(res,clamp((rayH-getH(sP))*21.0,0.0,1.0)); if(res<0.02)break;} return res;}
+      for(int i=1;i<=32;i++){float t=float(i)/32.0; vec2 sP=p+toL*t; float rayH=h0+t*(4.0-h0);
+        res=min(res,clamp((rayH-getH(sP))*15.0,0.0,1.0)); if(res<0.02)break;} return res;}
     void main(){float asp=uRes.x/uRes.y; vec2 tUV=vUv*vec2(asp,1.0); vec2 lT=uLight*vec2(asp,1.0);
       float h0=getH(tUV)*0.95;
       vec3 albedo=texture2D(uDiffuse,tUV).rgb; vec3 nmap=texture2D(uNormal,tUV).rgb;
@@ -1626,7 +1629,7 @@
       float fl=1.0+0.06*(0.5*sin(uTime*27.0)+0.3*sin(uTime*19.0)+0.2*sin(uTime*11.0));
       vec3 warm=vec3(1.0,0.765,0.502);
       float vx=1.0-smoothstep(0.5,1.0,abs(vUv.x-0.5)*2.0); float vy=1.0-smoothstep(0.5,1.0,abs(vUv.y-0.5)*2.0);
-      gl_FragColor=vec4(albedo*warm*diff*att*sh*fl*vx*vy*2.1,1.0);}`;
+      gl_FragColor=vec4(albedo*warm*diff*att*sh*fl*vx*vy*1.5,1.0);}`;
   function mk(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;}
   const p=gl.createProgram();gl.attachShader(p,mk(gl.VERTEX_SHADER,VS));gl.attachShader(p,mk(gl.FRAGMENT_SHADER,FS));gl.linkProgram(p);gl.useProgram(p);
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
@@ -1640,8 +1643,11 @@
   loadT(tD,BASE+'BaseColor.jpg'); loadT(tN,BASE+'Normal.jpg'); loadT(tDp,BASE+'Displacement.jpg');
   function resize(){const h=canvas.parentElement;canvas.width=h.offsetWidth;canvas.height=h.offsetHeight;gl.viewport(0,0,canvas.width,canvas.height);}
   window.addEventListener('resize',resize);resize();
-  document.addEventListener('mousemove',function(e){const r=canvas.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height;});
-  function render(){requestAnimationFrame(render);lx+=(tx-lx)*0.10;ly+=(ty-ly)*0.10;if(rc<3)return;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tDp);gl.uniform1i(uDp,2);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.uniform1f(uTm,performance.now()*0.001);gl.drawArrays(gl.TRIANGLES,0,6);}
+  function updateLight(cx,cy){const r=canvas.getBoundingClientRect();tx=(cx-r.left)/r.width;ty=(cy-r.top)/r.height;}
+  document.addEventListener('mousemove',function(e){updateLight(e.clientX,e.clientY);});
+  document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);lx=tx;ly=ty;},{passive:true});
+  document.addEventListener('touchmove',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
+  function render(){requestAnimationFrame(render);lx+=(tx-lx)*0.05;ly+=(ty-ly)*0.05;if(rc<3)return;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tDp);gl.uniform1i(uDp,2);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.uniform1f(uTm,performance.now()*0.001);gl.drawArrays(gl.TRIANGLES,0,6);}
   render();
 })();
 </script>
@@ -1656,6 +1662,18 @@
 
 <script>
 (function() {
+  // ── TEXT SHADOW PARAMS ─────────────────────────────────────────
+  const S = {
+    maxDist:  600,   // fire influence radius (px)
+    scale:    28,    // max shadow offset (px)
+    blurMin:  2,     // blur at far distance (px)
+    blurMax:  22,    // blur at close distance (px)
+    alpha:    0.90,  // shadow darkness (0–1)
+    glowBlur: 60,    // warm glow spread (px)
+    glowA:    0.85,  // warm glow opacity (0–1)
+  };
+  // ─────────────────────────────────────────────────────────────────
+
   const overlay  = document.getElementById('torchOverlay');
   const cursor   = document.getElementById('fireCursor');
 
@@ -1686,6 +1704,8 @@
     const t = e.touches[0];
     targetX = t.clientX;
     targetY = t.clientY;
+    curX = targetX;
+    curY = targetY;
     active = true;
     overlay.style.opacity = '1';
   }, { passive: true });
@@ -1707,7 +1727,7 @@
 
   // Text shadow targets: headings + section labels
   function updateShadows(mx, my) {
-    const els = document.querySelectorAll('h1, h2, h3, .hero-title, .hero-subtitle, .mystery-quote');
+    const els = document.querySelectorAll('.hero-title, .hero-subtitle, .hero-eyebrow, .hero-meta, .mystery-quote');
     els.forEach(el => {
       const r    = el.getBoundingClientRect();
       const cx   = r.left + r.width  / 2;
@@ -1716,18 +1736,20 @@
       const dy   = cy - my;
       const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
-      // Shadow falls away from the light source
-      const maxDist   = 700;
-      const intensity = Math.max(0, 1 - dist / maxDist);
-      const scale     = 5 * intensity;
-      const sx        = (dx / dist) * scale;
-      const sy        = (dy / dist) * scale;
-      const blur      = 10 * intensity;
-      const alpha     = 0.75 * intensity;
+      const intensity = Math.max(0, 1 - dist / S.maxDist);
+      const sx = (dx / dist) * S.scale * intensity;
+      const sy = (dy / dist) * S.scale * intensity;
+      const baseShadow = '0 2px 24px rgba(0,0,0,0.95), 0 0 8px rgba(0,0,0,0.9)';
 
-      el.style.textShadow = intensity > 0.02
-        ? `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(1)}px rgba(180, 90, 0, ${alpha.toFixed(2)})`
-        : '';
+      if (intensity > 0.02) {
+        const blur = S.blurMin + (S.blurMax - S.blurMin) * intensity;
+        el.style.textShadow =
+          `${sx.toFixed(1)}px ${sy.toFixed(1)}px ${blur.toFixed(0)}px rgba(0,0,0,${(S.alpha * intensity).toFixed(2)}),` +
+          `0 0 ${(S.glowBlur * intensity).toFixed(0)}px rgba(200,100,0,${(S.glowA * intensity).toFixed(2)}),` +
+          baseShadow;
+      } else {
+        el.style.textShadow = baseShadow;
+      }
     });
   }
 
