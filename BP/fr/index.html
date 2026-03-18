@@ -1607,6 +1607,7 @@
   const P = {
     intensity:5.0, lightZ:1.5, atten:0.8,
     shadowK:8.0, shadowH:1.4, steps:20,
+    dispScale:1.0,
     flicker:0.20, smooth:0.10,
     vigX:0.5, vigY:0.4,
     lr:1.0, lg:0.62, lb:0.22
@@ -1641,6 +1642,7 @@
     sld('衰减系数','atten',0.05,6,0.05),
     sld('阴影软度','shadowK',1,30,0.5),
     sld('阴影光高','shadowH',1.0,3.0,0.05),
+    sld('置换高度','dispScale',0.0,3.0,0.05),
     sld('RM步数','steps',4,32,1),
     sld('闪烁强度','flicker',0,0.5,0.01),
     sld('跟随延迟','smooth',0.02,0.5,0.01),
@@ -1662,7 +1664,7 @@
   const FS = `precision mediump float;
     uniform sampler2D uDiffuse,uNormal,uDisplace;
     uniform vec2 uLight,uRes; uniform float uTime;
-    uniform float uIntensity,uLightZ,uAtten,uShadowK,uShadowH,uSteps,uFlicker,uVigX,uVigY;
+    uniform float uIntensity,uLightZ,uAtten,uShadowK,uShadowH,uSteps,uDispScale,uFlicker,uVigX,uVigY;
     uniform vec3 uLightColor;
     varying vec2 vUv;
     float getH(vec2 u){return texture2D(uDisplace,u).r;}
@@ -1671,7 +1673,7 @@
         float t=float(i)/uSteps; float rayH=h0+t*(uShadowH-h0);
         res=min(res,clamp((rayH-getH(p+toL*t))*uShadowK,0.0,1.0)); if(res<0.02)break;} return res;}
     void main(){float asp=uRes.x/uRes.y; vec2 tUV=vUv*vec2(asp,1.0); vec2 lT=uLight*vec2(asp,1.0);
-      float h0=getH(tUV);
+      float h0=getH(tUV)*uDispScale;
       vec3 albedo=texture2D(uDiffuse,tUV).rgb; vec3 nmap=texture2D(uNormal,tUV).rgb;
       vec3 N=normalize(nmap*2.0-1.0); N.y=-N.y;
       vec2 d=lT-tUV; float dist=length(d); vec3 L=normalize(vec3(d,uLightZ));
@@ -1686,7 +1688,7 @@
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
   const ap=gl.getAttribLocation(pg,'aPos');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
   const U={};['uLight','uRes','uTime','uDiffuse','uNormal','uDisplace',
-    'uIntensity','uLightZ','uAtten','uShadowK','uShadowH','uSteps','uFlicker','uVigX','uVigY','uLightColor']
+    'uIntensity','uLightZ','uAtten','uShadowK','uShadowH','uSteps','uDispScale','uFlicker','uVigX','uVigY','uLightColor']
     .forEach(n=>U[n]=gl.getUniformLocation(pg,n));
   function mkTex(px){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(px));return t;}
   const tD=mkTex([30,20,15,255]),tN=mkTex([128,128,255,255]),tDp=mkTex([128,128,128,255]);
@@ -1710,6 +1712,7 @@
     gl.uniform1f(U.uIntensity,P.intensity); gl.uniform1f(U.uLightZ,P.lightZ);
     gl.uniform1f(U.uAtten,P.atten);        gl.uniform1f(U.uShadowK,P.shadowK);
     gl.uniform1f(U.uShadowH,P.shadowH);    gl.uniform1f(U.uSteps,P.steps);
+    gl.uniform1f(U.uDispScale,P.dispScale);
     gl.uniform1f(U.uFlicker,P.flicker);    gl.uniform1f(U.uVigX,P.vigX);
     gl.uniform1f(U.uVigY,P.vigY);          gl.uniform3f(U.uLightColor,P.lr,P.lg,P.lb);
     gl.drawArrays(gl.TRIANGLES,0,6);
