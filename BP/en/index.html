@@ -1610,7 +1610,7 @@
 <script>
 (function() {
   // ── WEBGL SHADOW PARAMS ───────────────────────────────────────────
-  const shadowFloor = 0.0;  // shadow minimum brightness (0=black, 0.4=soft grey) — raise to soften
+  const shadowFloor = 0.2;  // shadow minimum brightness (0=black, 0.4=soft grey) — raise to soften
   // ─────────────────────────────────────────────────────────────────
 
   const canvas = document.getElementById('heroCanvas');
@@ -1622,7 +1622,7 @@
     float getH(vec2 u){return texture2D(uDisplace,u).r;}
     float hShadow(vec2 p,float h0,vec2 lp){vec2 toL=lp-p; float res=1.0;
       for(int i=1;i<=32;i++){float t=float(i)/32.0; vec2 sP=p+toL*t; float rayH=h0+t*(4.0-h0);
-        res=min(res,clamp((rayH-getH(sP))*15.0,0.0,1.0)); if(res<0.02)break;} return res;}
+        res=min(res,clamp((rayH-getH(sP))*10.0,0.0,1.0)); if(res<0.02)break;} return res;}
     void main(){float asp=uRes.x/uRes.y; vec2 tUV=vUv*vec2(asp,1.0); vec2 lT=uLight*vec2(asp,1.0);
       float h0=getH(tUV)*0.95;
       vec3 albedo=texture2D(uDiffuse,tUV).rgb; vec3 nmap=texture2D(uNormal,tUV).rgb;
@@ -1633,7 +1633,7 @@
       float fl=1.0+0.06*(0.5*sin(uTime*27.0)+0.3*sin(uTime*19.0)+0.2*sin(uTime*11.0));
       vec3 warm=vec3(1.0,0.765,0.502);
       float vx=1.0-smoothstep(0.5,1.0,abs(vUv.x-0.5)*2.0); float vy=1.0-smoothstep(0.5,1.0,abs(vUv.y-0.5)*2.0);
-      gl_FragColor=vec4(albedo*warm*diff*att*sh*fl*vx*vy*1.5,1.0);}`;
+      gl_FragColor=vec4(albedo*warm*diff*att*sh*fl*vx*vy*1.8,1.0);}`;
   function mk(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;}
   const p=gl.createProgram();gl.attachShader(p,mk(gl.VERTEX_SHADER,VS));gl.attachShader(p,mk(gl.FRAGMENT_SHADER,FS));gl.linkProgram(p);gl.useProgram(p);
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
