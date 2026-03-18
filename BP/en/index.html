@@ -1704,10 +1704,15 @@
     overlay.style.opacity = '0';
   });
 
+  let touchOriginX = 0, touchOriginY = 0;
+  const SWIPE_PX = 8;
+
   document.addEventListener('touchstart', (e) => {
     const t = e.touches[0];
-    curX = targetX = t.clientX;
-    curY = targetY = t.clientY;
+    touchOriginX = t.clientX;
+    touchOriginY = t.clientY;
+    targetX = t.clientX;
+    targetY = t.clientY;
     cursor.style.opacity = '1';
     overlay.style.opacity = '1';
     active = true;
@@ -1717,8 +1722,12 @@
     const t = e.touches[0];
     targetX = t.clientX;
     targetY = t.clientY;
-    curX = t.clientX;   // snap during drag — no lerp lag on swipe
-    curY = t.clientY;
+    const dx = t.clientX - touchOriginX;
+    const dy = t.clientY - touchOriginY;
+    if (dx*dx + dy*dy > SWIPE_PX * SWIPE_PX) {
+      curX = t.clientX;
+      curY = t.clientY;
+    }
   }, { passive: true });
 
   document.addEventListener('touchend', () => {
