@@ -1650,7 +1650,7 @@
       float h0=getH(tUV)*uDispScale;
       vec3 albedo=texture2D(uDiffuse,tUV).rgb; vec3 nmap=texture2D(uNormal,tUV).rgb;
       vec3 N=normalize(nmap*2.0-1.0); N.y=-N.y;
-      vec2 d=lT-tUV; float dist=length(d); vec3 L=normalize(vec3(d,uLightZ));
+      vec2 d=uLight-vUv; float dist=length(d); vec3 L=normalize(vec3(d,uLightZ));
       float diff=max(dot(N,L),0.0); float att=1.0/(1.0+dist*dist*uAtten);
       float sh=hShadow(tUV,h0,lT);
       float fl=1.0+uFlicker*(0.5*sin(uTime*27.0)+0.3*sin(uTime*19.0)+0.2*sin(uTime*11.0));
