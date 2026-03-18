@@ -1613,6 +1613,8 @@
   const shadowFloor = 0.2;  // shadow minimum brightness (0=black, 0.4=soft grey) — raise to soften
   // ─────────────────────────────────────────────────────────────────
 
+  const steps = ('ontouchstart' in window) ? 16 : 32;
+
   const canvas = document.getElementById('heroCanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
   if (!gl) return;
@@ -1621,7 +1623,7 @@
     uniform sampler2D uDiffuse,uNormal,uDisplace; uniform vec2 uLight,uRes; uniform float uTime; varying vec2 vUv;
     float getH(vec2 u){return texture2D(uDisplace,u).r;}
     float hShadow(vec2 p,float h0,vec2 lp){vec2 toL=lp-p; float res=1.0;
-      for(int i=1;i<=32;i++){float t=float(i)/32.0; vec2 sP=p+toL*t; float rayH=h0+t*(4.0-h0);
+      for(int i=1;i<=${steps};i++){float t=float(i)/${steps}.0; vec2 sP=p+toL*t; float rayH=h0+t*(4.0-h0);
         res=min(res,clamp((rayH-getH(sP))*10.0,0.0,1.0)); if(res<0.02)break;} return res;}
     void main(){float asp=uRes.x/uRes.y; vec2 tUV=vUv*vec2(asp,1.0); vec2 lT=uLight*vec2(asp,1.0);
       float h0=getH(tUV)*0.95;
@@ -1649,7 +1651,7 @@
   window.addEventListener('resize',resize);resize();
   function updateLight(cx,cy){const r=canvas.getBoundingClientRect();tx=(cx-r.left)/r.width;ty=(cy-r.top)/r.height;}
   document.addEventListener('mousemove',function(e){updateLight(e.clientX,e.clientY);});
-  document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);lx=tx;ly=ty;},{passive:true});
+  document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
   document.addEventListener('touchmove',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
   function render(){requestAnimationFrame(render);if(window._fire){const r=canvas.getBoundingClientRect();lx=(window._fire.x-r.left)/r.width;ly=(window._fire.y-r.top)/r.height;}else{lx+=(tx-lx)*0.10;ly+=(ty-ly)*0.10;}if(rc<3)return;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tDp);gl.uniform1i(uDp,2);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.uniform1f(uTm,performance.now()*0.001);gl.drawArrays(gl.TRIANGLES,0,6);}
   render();

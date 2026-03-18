@@ -1611,14 +1611,14 @@
 (function() {
   // ── WEBGL LIGHTING PARAMS ────────────────────────────────────────
   const P = {
-    intensity:  1.5,   // overall brightness multiplier
+    intensity:  1.8,   // overall brightness multiplier
     lightZ:     0.45,  // light height above surface (0=grazing, 1=overhead)
     atten:      5.95,  // attenuation falloff — higher = smaller lit area
     // ── raymarching shadows ──
-    shadowK:     15,   // shadow hardness — higher = sharper contact shadows
+    shadowK:     10,   // shadow hardness — higher = sharper contact shadows
     shadowH:    4.0,   // max shadow ray height — controls shadow search range
     steps:       32,   // raymarching steps — higher = better quality, slower
-    shadowFloor: 0.0,  // shadow minimum brightness (0=black, 0.4=soft grey) — raise to soften
+    shadowFloor: 0.2,  // shadow minimum brightness (0=black, 0.4=soft grey) — raise to soften
     // ── displacement ──
     dispScale:  0.95,  // displacement height scale — higher = deeper bumps
     // ── flicker & motion ──
@@ -1631,6 +1631,8 @@
     lr: 1.0, lg: 0.765, lb: 0.502,  // warm amber: rgb(255, 195, 128)
   };
   // ─────────────────────────────────────────────────────────────────
+
+  if ('ontouchstart' in window) P.steps = Math.round(P.steps / 2);
 
   const canvas = document.getElementById('heroCanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -1675,7 +1677,7 @@
   window.addEventListener('resize',resize);resize();
   function updateLight(cx,cy){const r=canvas.getBoundingClientRect();tx=(cx-r.left)/r.width;ty=(cy-r.top)/r.height;}
   document.addEventListener('mousemove',function(e){updateLight(e.clientX,e.clientY);});
-  document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);lx=tx;ly=ty;},{passive:true});
+  document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
   document.addEventListener('touchmove',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
   function render(){
     requestAnimationFrame(render);
@@ -1756,9 +1758,8 @@
   // ── Touch ──
   document.addEventListener('touchstart', (e) => {
     const t = e.touches[0];
-    // Snap to touch point — no fly-across on tap
-    curX = targetX = t.clientX;
-    curY = targetY = t.clientY;
+    targetX = t.clientX;
+    targetY = t.clientY;
     cursor.style.opacity = '1';
     overlay.style.opacity = '1';
     active = true;
