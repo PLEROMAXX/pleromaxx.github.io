@@ -1606,27 +1606,30 @@
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
   if (!gl) return;
   const VS = `attribute vec2 aPos; varying vec2 vUv; void main() { vUv = vec2(aPos.x*0.5+0.5, 0.5-aPos.y*0.5); gl_Position = vec4(aPos,0.0,1.0); }`;
-  const FS = `precision mediump float; uniform sampler2D uDiffuse; uniform sampler2D uNormal; uniform vec2 uLight; uniform vec2 uRes; varying vec2 vUv;
-    void main(){vec2 uv=vUv*2.0; vec3 albedo=texture2D(uDiffuse,uv).rgb; vec3 nmap=texture2D(uNormal,uv).rgb;
+  const FS = `precision mediump float; uniform sampler2D uDiffuse; uniform sampler2D uNormal; uniform sampler2D uDisplace; uniform vec2 uLight; uniform vec2 uRes; varying vec2 vUv;
+    void main(){float asp=uRes.x/uRes.y; vec2 base=vUv*vec2(asp,1.0);
+      float disp=texture2D(uDisplace,base).r; vec2 shift=(uLight-vec2(0.5))*vec2(asp,1.0)*disp*0.05; vec2 uv=base+shift;
+      vec3 albedo=texture2D(uDiffuse,uv).rgb; vec3 nmap=texture2D(uNormal,uv).rgb;
       vec3 N=normalize(nmap*2.0-1.0); N.y=-N.y;
-      vec2 d=uLight-vUv; d.x*=uRes.x/uRes.y; float dist=length(d); vec3 L=normalize(vec3(d,0.5));
+      vec2 d=uLight-vUv; d.x*=asp; float dist=length(d); vec3 L=normalize(vec3(d,0.5));
       float diff=max(dot(N,L),0.0); float att=1.0/(1.0+dist*dist*1.5);
-      gl_FragColor=vec4(albedo*(0.38+diff*att*2.2),1.0);}`;
+      float vx=1.0-smoothstep(0.5,1.0,abs(vUv.x-0.5)*2.0); float vy=1.0-smoothstep(0.4,1.0,abs(vUv.y-0.5)*2.0);
+      gl_FragColor=vec4(albedo*diff*att*vx*vy*4.0,1.0);}`;
   function mk(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;}
   const p=gl.createProgram();gl.attachShader(p,mk(gl.VERTEX_SHADER,VS));gl.attachShader(p,mk(gl.FRAGMENT_SHADER,FS));gl.linkProgram(p);gl.useProgram(p);
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
   const ap=gl.getAttribLocation(p,'aPos');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
-  const uL=gl.getUniformLocation(p,'uLight'),uR=gl.getUniformLocation(p,'uRes'),uD=gl.getUniformLocation(p,'uDiffuse'),uN=gl.getUniformLocation(p,'uNormal');
+  const uL=gl.getUniformLocation(p,'uLight'),uR=gl.getUniformLocation(p,'uRes'),uD=gl.getUniformLocation(p,'uDiffuse'),uN=gl.getUniformLocation(p,'uNormal'),uDp=gl.getUniformLocation(p,'uDisplace');
   function mkTex(px){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(px));return t;}
-  const tD=mkTex([30,20,15,255]),tN=mkTex([128,128,255,255]);
-  let rc=0,lx=0.5,ly=0.5,dirty=true;
-  function loadT(t,src){const i=new Image();i.onload=function(){gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,i);[gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(q=>gl.texParameteri(gl.TEXTURE_2D,q,gl.REPEAT));[gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(q=>gl.texParameteri(gl.TEXTURE_2D,q,gl.LINEAR));rc++;dirty=true;};i.src=src;}
-  loadT(tD,'../assets/mine_rock_wall_uebmddyn_2k/Mine_Rock_Wall_uebmddyn_2K_BaseColor.jpg');
-  loadT(tN,'../assets/mine_rock_wall_uebmddyn_2k/Mine_Rock_Wall_uebmddyn_2K_Normal.jpg');
-  function resize(){const h=canvas.parentElement;canvas.width=h.offsetWidth;canvas.height=h.offsetHeight;gl.viewport(0,0,canvas.width,canvas.height);dirty=true;}
+  const tD=mkTex([30,20,15,255]),tN=mkTex([128,128,255,255]),tDp=mkTex([128,128,128,255]);
+  let rc=0,tx=0.5,ty=0.5,lx=0.5,ly=0.5;
+  function loadT(t,src){const i=new Image();i.onload=function(){gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,i);[gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(q=>gl.texParameteri(gl.TEXTURE_2D,q,gl.REPEAT));[gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(q=>gl.texParameteri(gl.TEXTURE_2D,q,gl.LINEAR));rc++;};i.src=src;}
+  const BASE='../assets/mine_rock_wall_uebmddyn_2k/Mine_Rock_Wall_uebmddyn_2K_';
+  loadT(tD,BASE+'BaseColor.jpg'); loadT(tN,BASE+'Normal.jpg'); loadT(tDp,BASE+'Displacement.jpg');
+  function resize(){const h=canvas.parentElement;canvas.width=h.offsetWidth;canvas.height=h.offsetHeight;gl.viewport(0,0,canvas.width,canvas.height);}
   window.addEventListener('resize',resize);resize();
-  document.addEventListener('mousemove',function(e){const r=canvas.getBoundingClientRect();lx=(e.clientX-r.left)/r.width;ly=1.0-(e.clientY-r.top)/r.height;dirty=true;});
-  function render(){requestAnimationFrame(render);if(!dirty||rc<2)return;dirty=false;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.drawArrays(gl.TRIANGLES,0,6);}
+  document.addEventListener('mousemove',function(e){const r=canvas.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height;});
+  function render(){requestAnimationFrame(render);lx+=(tx-lx)*0.10;ly+=(ty-ly)*0.10;if(rc<3)return;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tDp);gl.uniform1i(uDp,2);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.drawArrays(gl.TRIANGLES,0,6);}
   render();
 })();
 </script>
