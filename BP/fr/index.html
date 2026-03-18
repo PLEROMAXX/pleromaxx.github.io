@@ -1728,48 +1728,49 @@
 
   const overlay  = document.getElementById('torchOverlay');
   const cursor   = document.getElementById('fireCursor');
+  const isTouch  = ('ontouchstart' in window);
 
   let targetX = window.innerWidth  / 2;
   let targetY = window.innerHeight / 2;
   let curX    = targetX;
   let curY    = targetY;
   let active  = false;
+  let lastT   = performance.now();
 
+  // Hide cursor initially on touch devices (show only while touching)
+  if (isTouch) cursor.style.opacity = '0';
+
+  // ── Desktop mouse ──
   document.addEventListener('mousemove', (e) => {
     targetX = e.clientX;
     targetY = e.clientY;
-    if (!active) {
-      active = true;
-      overlay.style.opacity = '1';
-    }
+    if (!active) { active = true; overlay.style.opacity = '1'; cursor.style.opacity = '1'; }
   });
-
   document.addEventListener('mouseleave', () => {
     active = false;
     overlay.style.opacity = '0';
   });
 
-  // Touch tracking
+  // ── Touch ──
   document.addEventListener('touchstart', (e) => {
     const t = e.touches[0];
-    targetX = t.clientX;
-    targetY = t.clientY;
-    active = true;
+    // Snap to touch point — no fly-across on tap
+    curX = targetX = t.clientX;
+    curY = targetY = t.clientY;
+    cursor.style.opacity = '1';
     overlay.style.opacity = '1';
+    active = true;
   }, { passive: true });
 
   document.addEventListener('touchmove', (e) => {
     const t = e.touches[0];
     targetX = t.clientX;
     targetY = t.clientY;
-    if (!active) {
-      active = true;
-      overlay.style.opacity = '1';
-    }
   }, { passive: true });
 
   document.addEventListener('touchend', () => {
     active = false;
+    cursor.style.opacity = '0';
     overlay.style.opacity = '0';
   });
 
@@ -1800,9 +1801,12 @@
     });
   }
 
-  function tick() {
-    curX += (targetX - curX) * 0.10;
-    curY += (targetY - curY) * 0.10;
+  function tick(now) {
+    const dt    = Math.min(now - lastT, 50) / 1000;  // seconds, cap 50ms
+    lastT = now;
+    const fac   = 1 - Math.exp(-10 * dt);  // frame-rate independent lerp
+    curX += (targetX - curX) * fac;
+    curY += (targetY - curY) * fac;
 
     cursor.style.left = curX + 'px';
     cursor.style.top  = curY + 'px';
@@ -1821,7 +1825,7 @@
     requestAnimationFrame(tick);
   }
 
-  tick();
+  requestAnimationFrame(tick);
 })();
 </script>
 </body>
