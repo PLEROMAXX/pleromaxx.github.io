@@ -1615,9 +1615,10 @@
     lightZ:     0.45,  // light height above surface (0=grazing, 1=overhead)
     atten:      5.95,  // attenuation falloff — higher = smaller lit area
     // ── raymarching shadows ──
-    shadowK:    15,    // shadow hardness — higher = sharper contact shadows
+    shadowK:     15,   // shadow hardness — higher = sharper contact shadows
     shadowH:    4.0,   // max shadow ray height — controls shadow search range
-    steps:      32,    // raymarching steps — higher = better quality, slower
+    steps:       32,   // raymarching steps — higher = better quality, slower
+    shadowFloor: 0.0,  // shadow minimum brightness (0=black, 0.4=soft grey) — raise to soften
     // ── displacement ──
     dispScale:  0.95,  // displacement height scale — higher = deeper bumps
     // ── flicker & motion ──
@@ -1638,7 +1639,7 @@
   const FS = `precision mediump float;
     uniform sampler2D uDiffuse,uNormal,uDisplace;
     uniform vec2 uLight,uRes; uniform float uTime;
-    uniform float uIntensity,uLightZ,uAtten,uShadowK,uShadowH,uSteps,uDispScale,uFlicker,uVigX,uVigY;
+    uniform float uIntensity,uLightZ,uAtten,uShadowK,uShadowH,uSteps,uDispScale,uFlicker,uVigX,uVigY,uShadowFloor;
     uniform vec3 uLightColor;
     varying vec2 vUv;
     float getH(vec2 u){return texture2D(uDisplace,u).r;}
@@ -1652,7 +1653,7 @@
       vec3 N=normalize(nmap*2.0-1.0); N.y=-N.y;
       vec2 d=uLight-vUv; float dist=length(d); vec3 L=normalize(vec3(d,uLightZ));
       float diff=max(dot(N,L),0.0); float att=1.0/(1.0+dist*dist*uAtten);
-      float sh=hShadow(tUV,h0,lT);
+      float sh=mix(uShadowFloor,1.0,hShadow(tUV,h0,lT));
       float fl=1.0+uFlicker*(0.5*sin(uTime*27.0)+0.3*sin(uTime*19.0)+0.2*sin(uTime*11.0));
       float vx=1.0-smoothstep(uVigX,1.0,abs(vUv.x-0.5)*2.0);
       float vy=1.0-smoothstep(uVigY,1.0,abs(vUv.y-0.5)*2.0);
@@ -1662,7 +1663,7 @@
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
   const ap=gl.getAttribLocation(pg,'aPos');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
   const U={};['uLight','uRes','uTime','uDiffuse','uNormal','uDisplace',
-    'uIntensity','uLightZ','uAtten','uShadowK','uShadowH','uSteps','uDispScale','uFlicker','uVigX','uVigY','uLightColor']
+    'uIntensity','uLightZ','uAtten','uShadowK','uShadowH','uSteps','uDispScale','uFlicker','uVigX','uVigY','uShadowFloor','uLightColor']
     .forEach(n=>U[n]=gl.getUniformLocation(pg,n));
   function mkTex(px){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(px));return t;}
   const tD=mkTex([30,20,15,255]),tN=mkTex([128,128,255,255]),tDp=mkTex([128,128,128,255]);
@@ -1697,7 +1698,8 @@
     gl.uniform1f(U.uShadowH,P.shadowH);    gl.uniform1f(U.uSteps,P.steps);
     gl.uniform1f(U.uDispScale,P.dispScale);
     gl.uniform1f(U.uFlicker,P.flicker);    gl.uniform1f(U.uVigX,P.vigX);
-    gl.uniform1f(U.uVigY,P.vigY);          gl.uniform3f(U.uLightColor,P.lr,P.lg,P.lb);
+    gl.uniform1f(U.uVigY,P.vigY);          gl.uniform1f(U.uShadowFloor,P.shadowFloor);
+    gl.uniform3f(U.uLightColor,P.lr,P.lg,P.lb);
     gl.drawArrays(gl.TRIANGLES,0,6);
   }
   render();
@@ -1716,13 +1718,13 @@
 (function() {
   // ── TEXT SHADOW PARAMS ─────────────────────────────────────────
   const S = {
-    maxDist:  600,   // fire influence radius (px) — larger = affects more of the page
-    scale:    28,    // max shadow offset (px) — how far shadow is cast
-    blurMin:  2,     // blur at far distance (px)
-    blurMax:  22,    // blur at close distance (px)
-    alpha:    0.90,  // shadow darkness (0–1)
-    glowBlur: 60,    // warm glow spread (px) — orange bloom behind text
-    glowA:    0.85,  // warm glow opacity (0–1)
+    maxDist:  1540,   // fire influence radius (px) — larger = affects more of the page
+    scale:    8,    // max shadow offset (px) — how far shadow is cast
+    blurMin:  1,     // blur at far distance (px)
+    blurMax:  5,    // blur at close distance (px)
+    alpha:    1.00,  // shadow darkness (0–1)
+    glowBlur: 2,    // warm glow spread (px) — orange bloom behind text
+    glowA:    1.,  // warm glow opacity (0–1)
   };
   // ─────────────────────────────────────────────────────────────────
 
