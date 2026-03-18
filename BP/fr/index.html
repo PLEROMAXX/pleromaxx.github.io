@@ -153,7 +153,7 @@
     font-size: clamp(1rem, 2.5vw, 1.4rem);
     font-weight: 300;
     font-style: italic;
-    color: #e8dcc8;
+    color: #fff;
     margin-bottom: 3rem;
     letter-spacing: 0.04em;
     text-shadow: 0 0 30px rgba(0,0,0,1), 0 1px 8px rgba(0,0,0,0.9);
@@ -161,7 +161,7 @@
 
   .hero-meta {
     font-size: 0.75rem;
-    color: #b0a494;
+    color: #d8cec4;
     letter-spacing: 0.12em;
     text-shadow: 0 0 20px rgba(0,0,0,1);
   }
@@ -1606,60 +1606,14 @@
 <!-- HERO WEBGL NORMAL-MAP LIGHTING -->
 <script>
 (function() {
-
-  /* ── params ── */
-  window.P = {
+  const P = {
     intensity:2.1, lightZ:0.45, atten:5.95,
     shadowK:21, shadowH:3.0, steps:32,
     dispScale:0.95,
     flicker:0.06, smooth:0.1,
     vigX:0.5, vigY:0.5,
-    lr:1.0, lg:0.878, lb:0.502
+    lr:1.0, lg:0.765, lb:0.502
   };
-  function hexRgb(h){return[parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];}
-  function rgbHex(r,g,b){return'#'+[r,g,b].map(v=>Math.round(v*255).toString(16).padStart(2,'0')).join('');}
-
-  /* ── panel ── */
-  const pan=document.createElement('div');
-  pan.style.cssText='position:fixed;top:10px;right:10px;z-index:9999;background:rgba(8,6,4,.92);color:#ddb87a;font:11px/1.5 monospace;border-radius:4px;border:1px solid #554;width:215px';
-  const hd=document.createElement('div');
-  hd.style.cssText='padding:5px 10px;cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid #443';
-  hd.innerHTML='<b>⚙ WebGL params</b><span>▾</span>';
-  const bd=document.createElement('div');
-  bd.style.cssText='padding:6px 10px 8px';
-  let open=true;
-  hd.onclick=()=>{open=!open;bd.style.display=open?'block':'none';hd.querySelector('span').textContent=open?'▾':'▸';};
-
-  function sld(label,key,min,max,step){
-    const d=document.createElement('div');d.style.margin='2px 0';
-    const l=document.createElement('label');l.style.cssText='display:flex;justify-content:space-between;font-size:10px';
-    const sp=document.createElement('span');sp.textContent=P[key];
-    l.append(label,sp);
-    const s=document.createElement('input');s.type='range';s.min=min;s.max=max;s.step=step;s.value=P[key];
-    s.style.cssText='width:100%;accent-color:#c8822a;margin:1px 0 3px';
-    s.oninput=()=>{P[key]=parseFloat(s.value);sp.textContent=s.value;};
-    d.append(l,s);return d;
-  }
-  bd.append(
-    sld('光照强度','intensity',0.5,12,0.1),
-    sld('光源高度Z','lightZ',0.1,4,0.05),
-    sld('衰减系数','atten',0.05,6,0.05),
-    sld('阴影软度','shadowK',1,30,0.5),
-    sld('阴影光高','shadowH',1.0,3.0,0.05),
-    sld('置换高度','dispScale',0.0,3.0,0.05),
-    sld('RM步数','steps',4,32,1),
-    sld('闪烁强度','flicker',0,0.5,0.01),
-    sld('跟随延迟','smooth',0.02,0.5,0.01),
-    sld('晕影X','vigX',0.2,1.0,0.05),
-    sld('晕影Y','vigY',0.1,1.0,0.05)
-  );
-  const cl=document.createElement('label');cl.style.cssText='font-size:10px;display:block;margin:3px 0 1px';cl.textContent='光色';
-  const cp=document.createElement('input');cp.type='color';cp.value=rgbHex(P.lr,P.lg,P.lb);
-  cp.style.cssText='width:100%;height:22px;border:none;cursor:pointer;background:none';
-  cp.oninput=()=>{[P.lr,P.lg,P.lb]=hexRgb(cp.value);};
-  bd.append(cl,cp);
-  pan.append(hd,bd);document.body.appendChild(pan);
-  /* ── end panel ── */
 
   const canvas = document.getElementById('heroCanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
