@@ -1678,7 +1678,13 @@
   document.addEventListener('touchmove',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
   function render(){
     requestAnimationFrame(render);
-    lx+=(tx-lx)*P.smooth; ly+=(ty-ly)*P.smooth;
+    if(window._fire){
+      const r=canvas.getBoundingClientRect();
+      lx=(window._fire.x-r.left)/r.width;
+      ly=(window._fire.y-r.top)/r.height;
+    } else {
+      lx+=(tx-lx)*P.smooth; ly+=(ty-ly)*P.smooth;
+    }
     if(rc<3)return;
     gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(U.uDiffuse,0);
     gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(U.uNormal,1);
@@ -1748,8 +1754,6 @@
     const t = e.touches[0];
     targetX = t.clientX;
     targetY = t.clientY;
-    curX = targetX;   // snap — no lerp jump on new touch
-    curY = targetY;
     active = true;
     overlay.style.opacity = '1';
   }, { passive: true });
@@ -1812,6 +1816,7 @@
         rgba(220, 90,  10, 0.02) 60%,
         transparent 100%)`;
 
+    window._fire = { x: curX, y: curY };
     updateShadows(curX, curY);
     requestAnimationFrame(tick);
   }

@@ -1647,7 +1647,7 @@
   document.addEventListener('mousemove',function(e){updateLight(e.clientX,e.clientY);});
   document.addEventListener('touchstart',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);lx=tx;ly=ty;},{passive:true});
   document.addEventListener('touchmove',function(e){const t=e.touches[0];updateLight(t.clientX,t.clientY);},{passive:true});
-  function render(){requestAnimationFrame(render);lx+=(tx-lx)*0.05;ly+=(ty-ly)*0.05;if(rc<3)return;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tDp);gl.uniform1i(uDp,2);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.uniform1f(uTm,performance.now()*0.001);gl.drawArrays(gl.TRIANGLES,0,6);}
+  function render(){requestAnimationFrame(render);if(window._fire){const r=canvas.getBoundingClientRect();lx=(window._fire.x-r.left)/r.width;ly=(window._fire.y-r.top)/r.height;}else{lx+=(tx-lx)*0.10;ly+=(ty-ly)*0.10;}if(rc<3)return;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tD);gl.uniform1i(uD,0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,tN);gl.uniform1i(uN,1);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,tDp);gl.uniform1i(uDp,2);gl.uniform2f(uL,lx,ly);gl.uniform2f(uR,canvas.width,canvas.height);gl.uniform1f(uTm,performance.now()*0.001);gl.drawArrays(gl.TRIANGLES,0,6);}
   render();
 })();
 </script>
@@ -1704,8 +1704,6 @@
     const t = e.touches[0];
     targetX = t.clientX;
     targetY = t.clientY;
-    curX = targetX;
-    curY = targetY;
     active = true;
     overlay.style.opacity = '1';
   }, { passive: true });
@@ -1772,6 +1770,7 @@
         rgba(220, 90,  10, 0.02) 60%,
         transparent 100%)`;
 
+    window._fire = { x: curX, y: curY };
     updateShadows(curX, curY);
     requestAnimationFrame(tick);
   }
