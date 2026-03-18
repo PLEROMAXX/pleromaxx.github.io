@@ -816,9 +816,10 @@
 
   #fireCursor {
     position: fixed;
+    left: 0;
+    top: 0;
     pointer-events: none;
     z-index: 201;
-    transform: translate(-50%, -70%);
     width: 0;
     height: 0;
   }
@@ -1813,8 +1814,7 @@
     curX += (targetX - curX) * fac;
     curY += (targetY - curY) * fac;
 
-    cursor.style.left = curX + 'px';
-    cursor.style.top  = curY + 'px';
+    cursor.style.transform = `translate(${curX.toFixed(1)}px,${curY.toFixed(1)}px)`;
 
     const flicker = 1 + (Math.random() - 0.5) * 0.05;
     const r = Math.round(480 * flicker);
